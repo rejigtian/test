@@ -1,0 +1,4 @@
+include ':platinum'
+include ':Emojilib'
+include ':app'
+rootProject.name = "test"

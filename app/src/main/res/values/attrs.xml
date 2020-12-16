@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="RoundImageView">
+    <attr name="border_thickness" format="dimension" />
+    <attr name="border_inside_color" format="color" />
+    <attr name="border_outside_color" format="color" />
+</declare-styleable>
+
+    <declare-styleable name="SimpleTextView">
+        <attr name="android:text" format="string" />
+        <attr name="android:gravity">
+            <enum name="start" value="0"/>
+            <enum name="center" value="1"/>
+            <enum name="end" value="2"/>
+        </attr>
+        <attr name="android:textColor" />
+        <attr name="android:textSize" />
+        <attr name="linePadding" format="dimension" />
+        <attr name="android:paddingRight" />
+        <attr name="android:paddingLeft" />
+        <attr name="android:paddingTop" />
+        <attr name="android:paddingBottom" />
+    </declare-styleable>
+</resources>

@@ -1,0 +1,18 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.wepie.emoji"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="16"
+8-->/Users/rejig/AndroidStudioProjects/test/Emojilib/AndroidManifest.xml
+9        android:targetSdkVersion="28" />
+9-->/Users/rejig/AndroidStudioProjects/test/Emojilib/AndroidManifest.xml
+10
+11    <!-- <uses-sdk -->
+12    <!-- android:minSdkVersion="11"/> -->
+13    <application />
+13-->/Users/rejig/AndroidStudioProjects/test/Emojilib/AndroidManifest.xml:9:5-32
+14
+15</manifest>

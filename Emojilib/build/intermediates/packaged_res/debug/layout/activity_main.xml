@@ -1,0 +1,59 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.wepie.emoji.view.EmojiView
+        android:id="@+id/wp_emoji"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        />
+    <RelativeLayout
+        android:id="@+id/wp_send_lay"
+        android:layout_above="@id/wp_emoji"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <Button 
+            android:id="@+id/wp_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:text="发送"
+            android:gravity="center"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            />
+        <EditText 
+	        android:id="@+id/wp_edit"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:textSize="14dp"
+	        android:layout_centerVertical="true"
+	        android:layout_toLeftOf="@id/wp_send"
+	        />
+    </RelativeLayout>
+    
+    <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/wp_send_lay"
+        >
+        <TextView 
+            android:id="@+id/wp_msg_show"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textSize="14dp"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:visibility="invisible"
+            />
+    </RelativeLayout>
+    
+
+</RelativeLayout>

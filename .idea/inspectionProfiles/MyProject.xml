@@ -1,0 +1,10 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="MyProject" />
+    <inspection_tool class="AndroidLintNewApi" enabled="true" level="ERROR" enabled_by_default="true">
+      <scope name="Project Source Files" level="ERROR" enabled="true" />
+      <scope name="Default Changelist" level="ERROR" enabled="true" />
+      <scope name="Open Files" level="ERROR" enabled="true" />
+    </inspection_tool>
+  </profile>
+</component>
