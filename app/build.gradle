@@ -1,17 +1,22 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply from: 'tinker-support.gradle'
+
+def releaseTime() {
+    return new Date().format("yyyyMMdd", TimeZone.getTimeZone("GMT+08:00"))
+}
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.3"
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
     ext.kotlin_version = '1.3.50'
     defaultConfig {
         applicationId "com.example.test"
         minSdkVersion 16
-        targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        targetSdkVersion 30
+        versionCode 2
+        versionName "1.0.0.1"
         ndk {
             abiFilters 'armeabi-v7a'
         }
@@ -19,12 +24,29 @@ android {
     }
 
 
+    signingConfigs {
+        releaseKeyStore {
+            storeFile file("rejig_key.keystore")
+            storePassword "rejigtian"
+            keyAlias "test"
+            keyPassword "rejigtian"
+            v2SigningEnabled true
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
+            signingConfig signingConfigs.releaseKeyStore
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+            signingConfig signingConfigs.releaseKeyStore
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -38,6 +60,14 @@ android {
         }
 
     }
+
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            if (!variant.buildType.isDebuggable()) {
+                variant.packageApplicationProvider.get().outputDirectory = new File(project.rootDir.absolutePath + "/official/release")
+            }
+        }
+    }
 }
 
 dependencies {
@@ -47,6 +77,7 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation project(path: ':Emojilib')
+    implementation project(path: ':hotfix')
     implementation 'com.google.code.gson:gson:2.8.6'
     testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
@@ -60,4 +91,12 @@ dependencies {
     //kotlin -coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.2'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.2'
+    compile "com.android.support:multidex:1.0.3" // 多dex配置
+    //注释掉原有bugly的仓库
+    //compile 'com.tencent.bugly:crashreport:latest.release'//其中latest.release指代最新版本号，也可以指定明确的版本号，例如1.3.4
+    compile 'com.tencent.bugly:crashreport_upgrade:1.5.0'
+    // 指定tinker依赖版本（注：应用升级1.3.5版本起，不再内置tinker）
+    compile 'com.tencent.tinker:tinker-android-lib:1.9.14.10'
+    compile 'com.tencent.bugly:nativecrashreport:3.7.700' //其中latest.release指代最新版本号，也可以指定明确的版本号，例如2.2.0
+
 }

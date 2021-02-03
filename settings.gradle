@@ -1,4 +1,4 @@
-include ':platinum'
+include ':hotfix'
 include ':Emojilib'
 include ':app'
 rootProject.name = "test"

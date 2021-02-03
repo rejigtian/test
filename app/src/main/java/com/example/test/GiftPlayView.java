@@ -58,7 +58,7 @@ public class GiftPlayView extends RelativeLayout {
     private int sh;
     private int lineMaxH;
     private int lineWidth;
-    public void payGiftAnim() {
+    public void playGiftAnim() {
 
         final float g = sh * 400f / 568;
         final float maxH = sh * GiftInterpolator.maxhRatio;
@@ -76,7 +76,6 @@ public class GiftPlayView extends RelativeLayout {
         params.bottomMargin = 0;
         params.leftMargin = leftMargin;
         addView(imageView, params);
-        imageView.getParent();
         final float animCount = 100;
         ValueAnimator lineAnim = ValueAnimator.ofFloat(0, animCount);
 

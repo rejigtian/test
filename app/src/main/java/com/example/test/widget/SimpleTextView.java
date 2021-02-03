@@ -81,7 +81,7 @@ public class SimpleTextView extends View {
     public void setText(CharSequence text){
         this.text = text == null ? "" : text;
         mSpannable = (text instanceof Spannable) ? (Spannable) text : null;
-        refreshView(false);
+        refreshView(true);
     }
 
     /**

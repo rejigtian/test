@@ -1,5 +1,7 @@
 package com.example.test.animview;
 
+import android.util.Log;
+
 import com.tencent.qgame.animplayer.AnimConfig;
 import com.tencent.qgame.animplayer.inter.IAnimListener;
 
@@ -7,9 +9,10 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class SimpleAnimeListener implements IAnimListener {
+    String TAG = "SimpleAnimeListener";
     @Override
     public void onFailed(int i, @Nullable String s) {
-
+        Log.e(TAG, "onFailed: " + i + s);
     }
 
     @Override

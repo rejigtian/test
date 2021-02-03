@@ -13,17 +13,14 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LifecycleRegistry;
 
-import com.example.test.animview.SimpleAnimeListener;
 import com.example.test.lifecycle.LifecycleHandler;
 import com.example.test.lifecycle.ReportFragment;
-import com.tencent.qgame.animplayer.AnimView;
 import com.tencent.qgame.animplayer.util.ALog;
 import com.tencent.qgame.animplayer.util.IALog;
 
@@ -103,12 +100,12 @@ public class LauncherActivity extends AppCompatActivity {
         ALog.INSTANCE.setDebug(true);
         File file=new File(getExternalFilesDir(Environment.DIRECTORY_MOVIES)+"/vap.mp4");
         File file3=new File(getExternalFilesDir(Environment.DIRECTORY_MOVIES)+"/vap2.mp4");
-        File file2=new File(getExternalFilesDir(Environment.DIRECTORY_MOVIES)+"/666.mp4");
+        File file2=new File(getExternalFilesDir(Environment.DIRECTORY_MOVIES)+"/ring.mp4");
         Log.e(TAG, "onCreate: "+getExternalFilesDir(null) );
         launcherVideoView.setOnViewStatusChange(new LauncherVideoView.onViewStatusChange() {
             @Override
             public void onCreat() {
-                launcherVideoView.setSource(file.getAbsolutePath());
+                launcherVideoView.setSource(file3.getAbsolutePath());
             }
 
             @Override
@@ -127,7 +124,6 @@ public class LauncherActivity extends AppCompatActivity {
                             Log.e(TAG, "onFinish: " );
                             Intent intent = new Intent(getContext(), MainActivity.class);
                             startActivity(intent);
-                            startService(new Intent(LauncherActivity.this,Empty.class));
                         }
                     };
                     countDownTimer.start();
@@ -150,30 +146,6 @@ public class LauncherActivity extends AppCompatActivity {
 
             }
         });
-        new CountDownTimer(80000,1000) {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onTick(long millisUntilFinished) {
-                Log.e(TAG, "onTick: " + millisUntilFinished);
-                try {
-                    startService(new Intent(LauncherActivity.this,Empty.class));
-                    bindService(new Intent(LauncherActivity.this, Empty.class), connection, BIND_AUTO_CREATE);
-                    unbindService(connection);
-                    stopService(new Intent(LauncherActivity.this,Empty.class));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFinish() {
-                Log.e(TAG, "onFinish: " );
-                startService(new Intent(LauncherActivity.this,Empty.class));
-                bindService(new Intent(LauncherActivity.this, Empty.class), connection, BIND_AUTO_CREATE);
-                unbindService(connection);
-                stopService(new Intent(LauncherActivity.this,Empty.class));
-            }
-        }.start();
         launcherVideoView.setLifecycleOwner(this);
         LifecycleHandler lifecycleHandler = new LifecycleHandler(this);
         lifecycleRegistry.addObserver(lifecycleHandler);
@@ -181,12 +153,8 @@ public class LauncherActivity extends AppCompatActivity {
         button.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(),MainActivity.class);
             startActivity(intent);
+            finish();
         });
-        AnimView animView = new AnimView(this);
-        ((ViewGroup)findViewById(android.R.id.content)).addView(animView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        animView.setAnimListener(new SimpleAnimeListener());
-        animView.setLoop(-1);
-        animView.startPlay(file);
     }
 
     private Context getContext() {

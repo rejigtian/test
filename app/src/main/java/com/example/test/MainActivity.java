@@ -29,6 +29,7 @@ import com.example.test.util.DeviceInfoUtil;
 import com.example.test.widget.CustomListPopupWindow;
 import com.example.test.widget.SimpleTextView;
 import com.example.test.widget.TaskItem;
+import com.tencent.bugly.beta.Beta;
 import com.wepie.emoji.view.EmojiHelper;
 
 import java.util.ArrayList;
@@ -56,11 +57,12 @@ public class MainActivity extends Activity {
         List<String> aaa = Collections.synchronizedList(list);
         setContentView(R.layout.activity_main);
         final GiftPlayView giftPlayView=new GiftPlayView(this);
-        addContentView(giftPlayView,new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        addContentView(giftPlayView,new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         button=findViewById(R.id.button);
         actionPopwindow = findViewById(R.id.popup_window);
         TaskItem taskItem = new TaskItem("取消", () -> {
             Toast.makeText(this,"点击了取消", Toast.LENGTH_SHORT).show();
+            Beta.downloadPatch();
         });
         menu.add(taskItem);
 
@@ -88,7 +90,7 @@ public class MainActivity extends Activity {
 
 
         button.setOnClickListener(v -> {
-            giftPlayView.payGiftAnim();
+            giftPlayView.playGiftAnim();
             simpleTextView.setPadding(8,8,8,8);
             simpleTextView.setGravity(SimpleTextView.ALIGN_CENTER);
             span.append(DeviceInfoUtil.getDeviceInfo(getContext()).toString());
