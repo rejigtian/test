@@ -29,8 +29,8 @@ import com.example.test.util.DeviceInfoUtil;
 import com.example.test.widget.CustomListPopupWindow;
 import com.example.test.widget.SimpleTextView;
 import com.example.test.widget.TaskItem;
-import com.tencent.bugly.beta.Beta;
 import com.wepie.emoji.view.EmojiHelper;
+import com.woyou.hotfix.HotFixUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -62,7 +62,7 @@ public class MainActivity extends Activity {
         actionPopwindow = findViewById(R.id.popup_window);
         TaskItem taskItem = new TaskItem("取消", () -> {
             Toast.makeText(this,"点击了取消", Toast.LENGTH_SHORT).show();
-            Beta.downloadPatch();
+            HotFixUtil.checkUpgrade();
         });
         menu.add(taskItem);
 
@@ -70,7 +70,7 @@ public class MainActivity extends Activity {
         SpannableStringBuilder span = new SpannableStringBuilder();
         EmojiHelper.parseEmoji2Ssb(this,span,"\uD83D\uDE0C\uD83D\uDE0F\uD83D\uDE11\uD83D\uDE0C\uD83D\uDE0F\uD83D\uDE11\uD83D\uDE0C\uD83D\uDE0F\uD83D\uDE11\uD83D\uDE0C\uD83D\uDE0F\uD83D\uDE11\uD83D\uDE0C",100,16);
         int start = span.length();
-//        span.append("哈哈哈哈哈");
+        span.append("哈哈哈哈哈6666");
         span.setSpan(new ClickableSpan() {
             @Override
             public void onClick(@NonNull View widget) {

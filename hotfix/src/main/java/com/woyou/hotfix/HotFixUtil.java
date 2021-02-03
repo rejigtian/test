@@ -2,7 +2,7 @@ package com.woyou.hotfix;
 
 import android.app.Application;
 
-import com.tencent.bugly.Bugly;
+import com.tencent.bugly.beta.Beta;
 
 public class HotFixUtil {
     private static HotFixUtil instance;
@@ -17,6 +17,13 @@ public class HotFixUtil {
 
     public void init(Application application){
         this.application = application;
-        Bugly.init(application, "bf9eb26c6b", false);
+    }
+
+    public static void checkUpgrade(){
+        Beta.checkUpgrade();
+    }
+
+    public static void cleanPatch(){
+        Beta.cleanTinkerPatch(true);
     }
 }

@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply from: 'tinker-support.gradle'
 
 def releaseTime() {
     return new Date().format("yyyyMMdd", TimeZone.getTimeZone("GMT+08:00"))
@@ -15,8 +14,8 @@ android {
         applicationId "com.example.test"
         minSdkVersion 16
         targetSdkVersion 30
-        versionCode 2
-        versionName "1.0.0.1"
+        versionCode 3
+        versionName "1.0.0.2"
         ndk {
             abiFilters 'armeabi-v7a'
         }
@@ -66,6 +65,10 @@ android {
             if (!variant.buildType.isDebuggable()) {
                 variant.packageApplicationProvider.get().outputDirectory = new File(project.rootDir.absolutePath + "/official/release")
             }
+            if (project.hasProperty('BUILD_PATCH') && BUILD_PATCH){
+                variant.packageApplicationProvider.get().outputDirectory = new File(project.rootDir.absolutePath + "/official/release/baseapp")
+                outputFileName = "baseapp-release.apk"
+            }
         }
     }
 }
@@ -91,12 +94,6 @@ dependencies {
     //kotlin -coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.2'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.2'
-    compile "com.android.support:multidex:1.0.3" // 多dex配置
-    //注释掉原有bugly的仓库
-    //compile 'com.tencent.bugly:crashreport:latest.release'//其中latest.release指代最新版本号，也可以指定明确的版本号，例如1.3.4
-    compile 'com.tencent.bugly:crashreport_upgrade:1.5.0'
-    // 指定tinker依赖版本（注：应用升级1.3.5版本起，不再内置tinker）
-    compile 'com.tencent.tinker:tinker-android-lib:1.9.14.10'
-    compile 'com.tencent.bugly:nativecrashreport:3.7.700' //其中latest.release指代最新版本号，也可以指定明确的版本号，例如2.2.0
 
 }
+apply from: '../hotfix/tinker-support.gradle'
