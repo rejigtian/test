@@ -7,6 +7,11 @@ def bakPath = file(project.rootDir.absolutePath + "/official/release")
  */
 def baseApkDir = "baseapp"
 
+def getDate() {
+    def date = new Date()
+    def formattedDate = date.format('yyyyMMdd')
+    return formattedDate
+}
 /**
  * 对于插件各参数的详细解析请参考
  */
@@ -34,7 +39,7 @@ tinkerSupport {
     baseApkResourceMapping = "${bakPath}/${baseApkDir}/app-release-R.txt"
 
     // 构建基准包和补丁包都要指定不同的tinkerId，并且必须保证唯一性
-    tinkerId = "1.0.0.2.3-fix"
+    tinkerId = android.defaultConfig.versionName + android.defaultConfig.versionCode
 
     // 构建多渠道补丁时使用
     // buildAllFlavorsDir = "${bakPath}/${baseApkDir}"
