@@ -21,7 +21,7 @@ import androidx.lifecycle.LifecycleRegistry;
 
 import com.example.test.lifecycle.LifecycleHandler;
 import com.example.test.lifecycle.ReportFragment;
-import com.example.test.view.LauncherVideoView;
+import com.example.test.view.CustomeVideoView;
 import com.tencent.qgame.animplayer.util.ALog;
 import com.tencent.qgame.animplayer.util.IALog;
 
@@ -31,7 +31,7 @@ import java.io.File;
 import java.util.List;
 
 public class LauncherActivity extends AppCompatActivity {
-    private LauncherVideoView launcherVideoView;
+    private CustomeVideoView customeVideoView;
     private Button button;
     private int position=0;
     private String TAG = "LauncherActivity";
@@ -75,7 +75,7 @@ public class LauncherActivity extends AppCompatActivity {
                 startService(new Intent(LauncherActivity.this,Empty.class));
             }
         },60*1000);
-        launcherVideoView = findViewById(R.id.launcher_lvv);
+        customeVideoView = findViewById(R.id.launcher_lvv);
         button = findViewById(R.id.btn_close);
         ALog.INSTANCE.setLog(new IALog() {
             @Override
@@ -103,10 +103,10 @@ public class LauncherActivity extends AppCompatActivity {
         File file3=new File(getExternalFilesDir(Environment.DIRECTORY_MOVIES)+"/vap2.mp4");
         File file2=new File(getExternalFilesDir(Environment.DIRECTORY_MOVIES)+"/ring.mp4");
         Log.e(TAG, "onCreate: "+getExternalFilesDir(null) );
-        launcherVideoView.setOnViewStatusChange(new LauncherVideoView.onViewStatusChange() {
+        customeVideoView.setOnViewStatusChange(new CustomeVideoView.onViewStatusChange() {
             @Override
-            public void onCreat() {
-                launcherVideoView.setSource(file3.getAbsolutePath());
+            public void onCreate() {
+                customeVideoView.setSource(file3.getAbsolutePath());
             }
 
             @Override
@@ -129,28 +129,29 @@ public class LauncherActivity extends AppCompatActivity {
                     };
                     countDownTimer.start();
                 }
+                customeVideoView.setVolume(100);
                 if(position<PLAYTIME) {
-                    launcherVideoView.startPlay(true);
+                    customeVideoView.startPlay(true);
                     if (position != 0) {
-                        launcherVideoView.setPlayingTime(position);
+                        customeVideoView.setPlayingTime(position);
                     }
                 }
             }
 
             @Override
             public void onPlaying() {
-
+                Log.e(TAG, "onPlaying: " );
             }
 
             @Override
-            public void onDestory() {
-
+            public void onDestroy() {
+                Log.e(TAG, "onDestroy: " );
             }
         });
-        launcherVideoView.setLifecycleOwner(this);
+        customeVideoView.setLifecycleOwner(this);
         LifecycleHandler lifecycleHandler = new LifecycleHandler(this);
         lifecycleRegistry.addObserver(lifecycleHandler);
-        lifecycleRegistry.addObserver(launcherVideoView);
+        lifecycleRegistry.addObserver(customeVideoView);
         button.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(),MainActivity.class);
             startActivity(intent);
@@ -170,7 +171,7 @@ public class LauncherActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        launcherVideoView.release();
+        customeVideoView.release();
         Log.e(TAG, "onDestroy: " );
     }
 
@@ -201,8 +202,8 @@ public class LauncherActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        position = launcherVideoView.getPlayingTime();
-        launcherVideoView.pauseVideo();
+        position = customeVideoView.getPlayingTime();
+        customeVideoView.pauseVideo();
         exitTime=System.currentTimeMillis();
         if (countDownTimer!=null) {
             countDownTimer.cancel();

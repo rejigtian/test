@@ -7,7 +7,7 @@
     android:theme="@style/Theme.AppCompat.Light.NoActionBar"
     tools:context=".LauncherActivity">
 
-    <com.example.test.view.LauncherVideoView
+    <com.example.test.view.CustomeVideoView
         android:id="@+id/launcher_lvv"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

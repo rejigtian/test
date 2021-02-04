@@ -22,16 +22,15 @@ import com.example.test.lifecycle.FullLifecycleObserver;
 import com.example.test.lifecycle.FullLifecycleObserverAdapter;
 
 
-public class LauncherVideoView extends ConstraintLayout implements Application.ActivityLifecycleCallbacks, FullLifecycleObserver {
-    private Context mContext;
+public class CustomeVideoView extends ConstraintLayout implements Application.ActivityLifecycleCallbacks, FullLifecycleObserver {
+    private final Context mContext;
     private SurfaceView surfaceView;
     private MediaPlayer mediaPlayer;
-    private SurfaceHolder surfaceHolder;
     private onViewStatusChange onViewStatusChange;
     private LifecycleOwner mLifecycleOwner;
-    private String TAG="LauncherVideoView";
+    private final String TAG="LauncherVideoView";
 
-    public LauncherVideoView(Context context) {
+    public CustomeVideoView(Context context) {
         super(context);
         this.mContext = context;
         init();
@@ -43,13 +42,13 @@ public class LauncherVideoView extends ConstraintLayout implements Application.A
 
     }
 
-    public LauncherVideoView(Context context, AttributeSet attrs) {
+    public CustomeVideoView(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.mContext = context;
         init();
     }
 
-    public LauncherVideoView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public CustomeVideoView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.mContext = context;
         init();
@@ -62,7 +61,7 @@ public class LauncherVideoView extends ConstraintLayout implements Application.A
         }
     }
 
-    public void setOnViewStatusChange(LauncherVideoView.onViewStatusChange onViewStatusChange) {
+    public void setOnViewStatusChange(CustomeVideoView.onViewStatusChange onViewStatusChange) {
         this.onViewStatusChange = onViewStatusChange;
     }
 
@@ -70,13 +69,13 @@ public class LauncherVideoView extends ConstraintLayout implements Application.A
         LayoutInflater.from(mContext).inflate(R.layout.launcher_video_view, this);
         surfaceView = findViewById(R.id.surfaceView);
         mediaPlayer = new MediaPlayer();
-        surfaceHolder = surfaceView.getHolder();
+        SurfaceHolder surfaceHolder = surfaceView.getHolder();
         surfaceHolder.addCallback(new SurfaceHolder.Callback() {
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
                 mediaPlayer.setDisplay(surfaceView.getHolder());
                 if (onViewStatusChange!=null)
-                    onViewStatusChange.onCreat();
+                    onViewStatusChange.onCreate();
             }
 
             @Override
@@ -96,22 +95,20 @@ public class LauncherVideoView extends ConstraintLayout implements Application.A
             mediaPlayer.reset();
             mediaPlayer.setDataSource(filePath);
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);//设置声音播放模式
-            mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                @Override
-                public void onPrepared(MediaPlayer mp) {
-                    if (onViewStatusChange!=null)
-                        onViewStatusChange.onPrepared();
-                }
+            mediaPlayer.setOnPreparedListener(mp -> {
+                if (onViewStatusChange!=null)
+                    onViewStatusChange.onPrepared();
             });
             mediaPlayer.prepare();
         }catch (Exception e){
-
+            Log.e(TAG, e.toString());
         }
     }
 
     public void startPlay(boolean isLooping){
         mediaPlayer.setLooping(isLooping);
         mediaPlayer.start();
+        onViewStatusChange.onPlaying();
     }
 
 
@@ -129,13 +126,15 @@ public class LauncherVideoView extends ConstraintLayout implements Application.A
         mediaPlayer.pause();
     }
 
-    public void rePlay(){
-        mediaPlayer.start();
+    public void setVolume(int volume){
+        mediaPlayer.setVolume(volume,volume);
     }
+
     public void release(){
         if (mediaPlayer!=null) {
             mediaPlayer.stop();
             mediaPlayer.release();
+            onViewStatusChange.onDestroy();
         }
     }
 
@@ -204,10 +203,10 @@ public class LauncherVideoView extends ConstraintLayout implements Application.A
         Log.e(TAG, "onDestroy: " );
     }
 
-    interface onViewStatusChange{
-        void onCreat();
+    public interface onViewStatusChange{
+        void onCreate();
         void onPrepared();
         void onPlaying();
-        void onDestory();
+        void onDestroy();
     }
 }
