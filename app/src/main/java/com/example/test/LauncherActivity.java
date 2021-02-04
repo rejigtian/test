@@ -21,6 +21,7 @@ import androidx.lifecycle.LifecycleRegistry;
 
 import com.example.test.lifecycle.LifecycleHandler;
 import com.example.test.lifecycle.ReportFragment;
+import com.example.test.view.LauncherVideoView;
 import com.tencent.qgame.animplayer.util.ALog;
 import com.tencent.qgame.animplayer.util.IALog;
 

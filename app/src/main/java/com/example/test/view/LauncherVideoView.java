@@ -1,4 +1,4 @@
-package com.example.test;
+package com.example.test.view;
 
 import android.app.Activity;
 import android.app.Application;
@@ -17,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.LifecycleOwner;
 
+import com.example.test.R;
 import com.example.test.lifecycle.FullLifecycleObserver;
 import com.example.test.lifecycle.FullLifecycleObserverAdapter;
 

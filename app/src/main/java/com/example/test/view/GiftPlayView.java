@@ -1,4 +1,4 @@
-package com.example.test;
+package com.example.test.view;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 
+import com.example.test.R;
 import com.example.test.gift.GiftInterpolator;
 import com.example.test.util.ScreenUtil;
 

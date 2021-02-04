@@ -6,19 +6,16 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.text.InputFilter;
-import android.text.InputType;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextPaint;
-import android.text.method.ReplacementTransformationMethod;
 import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,103 +23,108 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 
 import com.example.test.util.DeviceInfoUtil;
+import com.example.test.view.GiftPlayView;
 import com.example.test.widget.CustomListPopupWindow;
 import com.example.test.widget.SimpleTextView;
 import com.example.test.widget.TaskItem;
 import com.wepie.emoji.view.EmojiHelper;
 import com.woyou.hotfix.HotFixUtil;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import static com.example.test.util.DeviceInfoUtil.REQUEAST_PERMISSION;
 
 public class MainActivity extends Activity {
-    List<TaskItem> menu= new ArrayList<>();
+    List<TaskItem> menu = new ArrayList<>();
     CustomListPopupWindow actionPopwindow;
     Button button;
-    private String TAG="MainActivity";
+    String TAG = "MainActivity";
     SimpleTextView simpleTextView;
-    EditText editText;
-    CopyOnWriteArrayList<String> list = new CopyOnWriteArrayList<>();
+    GiftPlayView giftPlayView;
+    TextView versionTv;
+    SpannableStringBuilder spanTest = new SpannableStringBuilder();
 
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.e(TAG, "onCreate: " );
+        Log.e(TAG, "onCreate: ");
         super.onCreate(savedInstanceState);
-        List<String> aaa = Collections.synchronizedList(list);
         setContentView(R.layout.activity_main);
-        final GiftPlayView giftPlayView=new GiftPlayView(this);
-        addContentView(giftPlayView,new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        button=findViewById(R.id.button);
+        giftPlayView = new GiftPlayView(this);
+        addContentView(giftPlayView, new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        initView();
+        setListener();
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void initView() {
+        versionTv = findViewById(R.id.version_tv);
+        button = findViewById(R.id.button);
+        simpleTextView = findViewById(R.id.test_stv);
         actionPopwindow = findViewById(R.id.popup_window);
+        simpleTextView = findViewById(R.id.test_stv);
+
+        versionTv.setText(BuildConfig.VERSION_NAME + "." + BuildConfig.VERSION_CODE);
         TaskItem taskItem = new TaskItem("取消", () -> {
-            Toast.makeText(this,"点击了取消", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "点击了取消", Toast.LENGTH_SHORT).show();
             HotFixUtil.checkUpgrade();
         });
         menu.add(taskItem);
 
-        simpleTextView = findViewById(R.id.test_stv);
-        SpannableStringBuilder span = new SpannableStringBuilder();
-        EmojiHelper.parseEmoji2Ssb(this,span,"\uD83D\uDE0C\uD83D\uDE0F\uD83D\uDE11\uD83D\uDE0C\uD83D\uDE0F\uD83D\uDE11\uD83D\uDE0C\uD83D\uDE0F\uD83D\uDE11\uD83D\uDE0C\uD83D\uDE0F\uD83D\uDE11\uD83D\uDE0C",100,16);
-        int start = span.length();
-        span.append("哈哈哈哈哈6666");
-        span.setSpan(new ClickableSpan() {
+        EmojiHelper.parseEmoji2Ssb(this, spanTest, "\uD83D\uDE0C\uD83D\uDE0F\uD83D\uDE11\uD83D\uDE0C\uD83D\uDE0F\uD83D\uDE11\uD83D\uDE0C\uD83D\uDE0F\uD83D\uDE11\uD83D\uDE0C\uD83D\uDE0F\uD83D\uDE11\uD83D\uDE0C", 100, 16);
+        int start = spanTest.length();
+        spanTest.append("哈哈哈哈哈");
+        spanTest.setSpan(new ClickableSpan() {
             @Override
             public void onClick(@NonNull View widget) {
-                Toast.makeText(getApplicationContext(),"hahahahahah",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "哈哈哈哈哈", Toast.LENGTH_SHORT).show();
             }
+
             @Override
-            public void updateDrawState(TextPaint ds) {
+            public void updateDrawState(@NotNull TextPaint ds) {
                 super.updateDrawState(ds);
                 //删除下划线，设置字体颜色为蓝色
                 ds.setColor(0xffcfb08c);
                 ds.setUnderlineText(false);
             }
-        }, start, span.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        simpleTextView.setText(span);
+        }, start, spanTest.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        simpleTextView.setText(spanTest);
 
+    }
 
-
-
+    private void setListener() {
         button.setOnClickListener(v -> {
             giftPlayView.playGiftAnim();
-            simpleTextView.setPadding(8,8,8,8);
+            simpleTextView.setPadding(8, 8, 8, 8);
             simpleTextView.setGravity(SimpleTextView.ALIGN_CENTER);
-            span.append(DeviceInfoUtil.getDeviceInfo(getContext()).toString());
-            simpleTextView.setText(span);
-            Log.e(TAG, "onCreate: "+span );
-            actionPopwindow.showView(true,menu);
+            spanTest.append(DeviceInfoUtil.getDeviceInfo(getContext()).toString());
+            simpleTextView.setText(spanTest);
+            Log.e(TAG, "onCreate: " + spanTest);
+            actionPopwindow.showView(true, menu);
         });
-
-        editText = findViewById(R.id.editTextTextPersonName);
-        editText.setInputType(InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
-        editText.setFilters(new InputFilter[]{new CapsLetterFilter(),new InputFilter.LengthFilter(4)});
-        //限制只输入大写，自动小写转大写
-        editText.setTransformationMethod(new AllCapTransformationMethod());
-
-
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
     }
+
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
     }
 
 
-        @Override
-    public boolean dispatchTouchEvent(MotionEvent ev){
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
         super.dispatchTouchEvent(ev);
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {
-            actionPopwindow.setPosition(ev.getRawX(),ev.getRawY());
+            actionPopwindow.setPosition(ev.getRawX(), ev.getRawY());
         }
         return true;
     }
@@ -145,7 +147,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        Log.e(TAG, "onRestart: " );
+        Log.e(TAG, "onRestart: ");
     }
 
     @Override
@@ -156,7 +158,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onStop() {
         super.onStop();
-        Log.e(TAG, "onStop: " );
+        Log.e(TAG, "onStop: ");
     }
 
     @Override
@@ -165,21 +167,21 @@ public class MainActivity extends Activity {
         return super.dispatchGenericMotionEvent(ev);
     }
 
-    public void requestPermission(final @NonNull String[] permissions){
-        ActivityCompat.requestPermissions(this, permissions,REQUEAST_PERMISSION );
+    public void requestPermission(final @NonNull String[] permissions) {
+        ActivityCompat.requestPermissions(this, permissions, REQUEAST_PERMISSION);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEAST_PERMISSION){
-            for (int i=0;i<permissions.length;i++){
+        if (requestCode == REQUEAST_PERMISSION) {
+            for (int i = 0; i < permissions.length; i++) {
                 String permission = permissions[i];
-                if (permission.equals(Manifest.permission.READ_PHONE_STATE)){
-                    if (grantResults[i] == PackageManager.PERMISSION_GRANTED){
-                        Toast.makeText(getContext(), DeviceInfoUtil.getIMEI(getContext()),Toast.LENGTH_LONG).show();
-                    }else {
-                        Toast.makeText(getContext(),"权限申请失败",Toast.LENGTH_LONG).show();
+                if (permission.equals(Manifest.permission.READ_PHONE_STATE)) {
+                    if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
+                        Toast.makeText(getContext(), DeviceInfoUtil.getIMEI(getContext()), Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getContext(), "权限申请失败", Toast.LENGTH_LONG).show();
                     }
                 }
             }
@@ -187,24 +189,8 @@ public class MainActivity extends Activity {
 
     }
 
-    public Context getContext(){
+    public Context getContext() {
         return this;
     }
 
-
-    public static class AllCapTransformationMethod extends ReplacementTransformationMethod {
-
-        @Override
-        protected char[] getOriginal() {
-            char[] aa = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z' };
-            return aa;
-        }
-
-        @Override
-        protected char[] getReplacement() {
-            char[] cc = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z' };
-            return cc;
-        }
-
-    }
 }
