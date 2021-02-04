@@ -1,0 +1,3 @@
+-keep class com.sensorsdata.analytics.android.** { *; }
+-keep class com.tencent.bugly.** {*;}
+-keep class com.tencent.tinker.** {*;}

@@ -20,6 +20,7 @@ android {
             abiFilters 'armeabi-v7a'
         }
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
 
 
@@ -35,14 +36,18 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             signingConfig signingConfigs.releaseKeyStore
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            multiDexKeepFile file('multidex.keep')
+            multiDexKeepProguard file('multidex-config.pro')
         }
         debug {
-            minifyEnabled false
+            minifyEnabled true
             signingConfig signingConfigs.releaseKeyStore
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            multiDexKeepFile file('multidex.keep')
+            multiDexKeepProguard file('multidex-config.pro')
         }
     }
 
@@ -59,11 +64,14 @@ android {
         }
 
     }
+    dexOptions{
+        preDexLibraries = false
+    }
 
     android.applicationVariants.all { variant ->
         variant.outputs.all {
             if (!variant.buildType.isDebuggable()) {
-                variant.packageApplicationProvider.get().outputDirectory = new File(project.rootDir.absolutePath + "/official/release")
+                variant.packageApplicationProvider.get().outputDirectory = new File(project.rootDir.absolutePath + "/official/release" + variant.getBuildType().buildType.minifyEnabled )
             }
             if (project.hasProperty('BUILD_PATCH') && BUILD_PATCH){
                 variant.packageApplicationProvider.get().outputDirectory = new File(project.rootDir.absolutePath + "/official/release/baseapp")

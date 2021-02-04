@@ -7,7 +7,7 @@
 7    <uses-sdk
 8        android:minSdkVersion="16"
 8-->/Users/rejig/AndroidStudioProjects/test/Emojilib/AndroidManifest.xml
-9        android:targetSdkVersion="28" />
+9        android:targetSdkVersion="30" />
 9-->/Users/rejig/AndroidStudioProjects/test/Emojilib/AndroidManifest.xml
 10
 11    <!-- <uses-sdk -->

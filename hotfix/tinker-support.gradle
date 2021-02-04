@@ -5,7 +5,7 @@ def bakPath = file(project.rootDir.absolutePath + "/official/release")
 /**
  * 此处填写每次构建生成的基准包目录
  */
-def baseApkDir = "baseapp"
+def baseApkDir = ""
 
 def getDate() {
     def date = new Date()
