@@ -78,7 +78,7 @@ public class MainActivity extends Activity {
 
         EmojiHelper.parseEmoji2Ssb(this, spanTest, "\uD83D\uDE0C\uD83D\uDE0F\uD83D\uDE11\uD83D\uDE0C\uD83D\uDE0F\uD83D\uDE11\uD83D\uDE0C\uD83D\uDE0F\uD83D\uDE11\uD83D\uDE0C\uD83D\uDE0F\uD83D\uDE11\uD83D\uDE0C", 100, 16);
         int start = spanTest.length();
-        spanTest.append("\n点击此处弹出哈哈哈哈哈\n");
+        spanTest.append("\n哈哈哈哈哈\n");
         spanTest.setSpan(new ClickableSpan() {
             @Override
             public void onClick(@NonNull View widget) {
