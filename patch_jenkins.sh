@@ -1,6 +1,6 @@
-BASE_APK="official/release/baseapp.apk"
-MAPPING="official/release/app-release-mapping.apk"
-R="official/release/app-release-R.apk"
+BASE_APK="official/release/base-app.apk"
+MAPPING="official/release/base-app-mapping.apk"
+R="official/release/base-app-R.apk"
 APK_URL="master"
 
 echo "-- 开始构建热修复补丁包 --"
@@ -34,7 +34,7 @@ if [[ -n "$5" ]]; then
   git checkout "$5"
 fi
 
-rm -r -f BASE_APK
+rm -r -f official/release/base-app*
 curl APK_URL > BASE_APK
 ./gradlew buildTinkerPatchRelease
 cp -f -a app/build/outputs/patch official/release/patch

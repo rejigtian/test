@@ -1,5 +1,7 @@
 FIX_BRANCH="hotfix"
 BASE_BRANCH="master"
+BASE_APK="official/release/base-app.apk"
+
 
 echo "-- 构建热修复补丁包,请确认分支存在 --"
 for i in "$@"; do
@@ -21,7 +23,7 @@ fi
 git checkout $BASE_BRANCH
 rm -r -f official/release/*
 ./gradlew assembleRelease -P BUILD_PATCH=true
-cp -f official/release/baseapp/baseapp-release.apk official/release/baseapp/baseapp.apk
+cp -f official/release/baseapp/baseapp-release.apk BASE_APK
 git checkout $FIX_BRANCH
 ./gradlew buildTinkerPatchRelease
 cp -f -a app/build/outputs/patch official/release/patch
