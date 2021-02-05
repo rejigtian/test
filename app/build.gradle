@@ -15,6 +15,7 @@ android {
             abiFilters 'armeabi-v7a'
         }
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
 
 
@@ -33,12 +34,20 @@ android {
             minifyEnabled false
             signingConfig signingConfigs.releaseKeyStore
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            multiDexKeepFile file('multidex.keep')
+            multiDexKeepProguard file('multidex-config.pro')
         }
         debug {
             minifyEnabled false
             signingConfig signingConfigs.releaseKeyStore
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            multiDexKeepFile file('multidex.keep')
+            multiDexKeepProguard file('multidex-config.pro')
         }
+    }
+
+    dexOptions {
+        preDexLibraries = false
     }
 
     compileOptions {
