@@ -1,6 +1,6 @@
 BASE_APK="official/release/base-app.apk"
-MAPPING="official/release/base-app-mapping.apk"
-R="official/release/base-app-R.apk"
+MAPPING="official/release/base-app-mapping.txt"
+R="official/release/base-app-R.txt"
 APK_LOCATION="official/release/base-app.apk"
 BUILD_TYPE=0;
 

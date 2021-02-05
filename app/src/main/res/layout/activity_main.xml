@@ -20,13 +20,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginRight="16dp" />
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:layout_marginRight="100dp"
+        android:src="@drawable/above_sixteen_bg"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
-        android:text="哈哈哈哈哈"
+        android:text="呵呵呵"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

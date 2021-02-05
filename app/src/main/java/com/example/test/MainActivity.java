@@ -89,6 +89,7 @@ public class MainActivity extends Activity {
                 ds.setUnderlineText(false);
             }
         }, start, spanTest.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spanTest.append("\n呵呵呵\n");
         simpleTextView.setText(spanTest);
 
     }
