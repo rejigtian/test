@@ -12,14 +12,14 @@ done
 if [[ -n "$1" ]]; then
   BUILD_TYPE="$1"
   else
-    echo "参数1：使用url或路径，0=路径，1=url；参数2：安装包；[参数3：mapping文件]；[参数4：R文件]；[参数5：分支]"
+    echo "参数1：使用url或路径，0=路径，1=url；参数2：安装包；[参数3：R文件]；[参数4：mapping文件]；[参数5：分支]"
     exit
 fi
 
 if [[ -n "$2" ]]; then
   APK_LOCATION="$2"
   else
-    echo "参数1：使用url或路径，0=路径，1=url；参数2：安装包；[参数3：mapping文件]；[参数4：R文件]；[参数5：分支]"
+    echo "参数1：使用url或路径，0=路径，1=url；参数2：安装包；[参数3：R文件]；[参数4：mapping文件]；[参数5：分支]"
     exit
 fi
 
@@ -28,21 +28,21 @@ rm -r -f official/release/base-app*
 if [ $BUILD_TYPE == 0 ]; then {
     cp -f $APK_LOCATION $BASE_APK
     if [[ -n "$3" ]]; then
-      cp -f "$3" $MAPPING
+      cp -f "$3" $R
     fi
 
     if [[ -n "$4" ]]; then
-      cp -f "$4" $R
+      cp -f "$4" $MAPPING
     fi
   }
   else {
     curl $APK_LOCATION > $BASE_APK
     if [[ -n "$3" ]]; then
-      curl "$3" > $MAPPING
+      curl "$3" > $R
     fi
 
     if [[ -n "$4" ]]; then
-      curl "$4" > $R
+      curl "$4" > $MAPPING
     fi
   }
 fi
