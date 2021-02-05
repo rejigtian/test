@@ -27,8 +27,6 @@ import com.example.test.view.GiftPlayView;
 import com.example.test.widget.CustomListPopupWindow;
 import com.example.test.widget.SimpleTextView;
 import com.example.test.widget.TaskItem;
-import com.wepie.emoji.view.EmojiHelper;
-import com.woyou.hotfix.HotFixUtil;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -72,11 +70,9 @@ public class MainActivity extends Activity {
         versionTv.setText(BuildConfig.VERSION_NAME + "." + BuildConfig.VERSION_CODE);
         TaskItem taskItem = new TaskItem("取消", () -> {
             Toast.makeText(this, "点击了取消", Toast.LENGTH_SHORT).show();
-            HotFixUtil.checkUpgrade();
         });
         menu.add(taskItem);
 
-        EmojiHelper.parseEmoji2Ssb(this, spanTest, "\uD83D\uDE0C\uD83D\uDE0F\uD83D\uDE11\uD83D\uDE0C\uD83D\uDE0F\uD83D\uDE11\uD83D\uDE0C\uD83D\uDE0F\uD83D\uDE11\uD83D\uDE0C\uD83D\uDE0F\uD83D\uDE11\uD83D\uDE0C", 100, 16);
         int start = spanTest.length();
         spanTest.append("\n哈哈哈哈哈\n");
         spanTest.setSpan(new ClickableSpan() {
@@ -93,6 +89,7 @@ public class MainActivity extends Activity {
                 ds.setUnderlineText(false);
             }
         }, start, spanTest.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spanTest.append("\n都什么啊\n");
         simpleTextView.setText(spanTest);
 
     }

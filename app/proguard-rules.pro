@@ -26,6 +26,7 @@
 -dontpreverify                                                                  # 混淆时是否做预校验
 -verbose                                                                        # 混淆时是否记录日志
 -optimizations !code/simplification/arithmetic,!field/*,!class/merging/*        # 混淆时所采用的算法
+#-applymapping ../official/release/old/app-release-mapping.txt
 
 -keep public class * extends android.app.Activity                               # 保持哪些类不被混淆
 -keep public class * extends android.app.Application                            # 保持哪些类不被混淆
@@ -65,4 +66,6 @@
 # tinker混淆规则
 -dontwarn com.tencent.tinker.**
 -keep class com.tencent.tinker.** {*;}
- -keep class android.support.**{*;}
+-keep class android.support.**{*;}
+
+

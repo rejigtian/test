@@ -1,26 +1,20 @@
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-
-def releaseTime() {
-    return new Date().format("yyyyMMdd", TimeZone.getTimeZone("GMT+08:00"))
-}
+//apply plugin: 'kotlin-android'
+//apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
-    ext.kotlin_version = '1.3.50'
     defaultConfig {
         applicationId "com.example.test"
         minSdkVersion 16
         targetSdkVersion 30
-        versionCode 6
-        versionName "1.0.0.6"
+        versionCode 8
+        versionName "1.0.0.8"
         ndk {
             abiFilters 'armeabi-v7a'
         }
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        multiDexEnabled true
     }
 
 
@@ -36,18 +30,14 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             signingConfig signingConfigs.releaseKeyStore
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            multiDexKeepFile file('multidex.keep')
-            multiDexKeepProguard file('multidex-config.pro')
         }
         debug {
-            minifyEnabled true
+            minifyEnabled false
             signingConfig signingConfigs.releaseKeyStore
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            multiDexKeepFile file('multidex.keep')
-            multiDexKeepProguard file('multidex-config.pro')
         }
     }
 
@@ -71,11 +61,7 @@ android {
     android.applicationVariants.all { variant ->
         variant.outputs.all {
             if (!variant.buildType.isDebuggable()) {
-                variant.packageApplicationProvider.get().outputDirectory = new File(project.rootDir.absolutePath + "/official/release" + variant.getBuildType().buildType.minifyEnabled )
-            }
-            if (project.hasProperty('BUILD_PATCH') && BUILD_PATCH){
-                variant.packageApplicationProvider.get().outputDirectory = new File(project.rootDir.absolutePath + "/official/release/baseapp")
-                outputFileName = "baseapp-release.apk"
+                variant.packageApplicationProvider.get().outputDirectory = new File(project.rootDir.absolutePath + "/official/release")
             }
         }
     }
@@ -87,7 +73,6 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
-    implementation project(path: ':Emojilib')
     implementation project(path: ':hotfix')
     implementation 'com.google.code.gson:gson:2.8.6'
     testImplementation 'junit:junit:4.13.1'
@@ -96,9 +81,6 @@ dependencies {
     implementation 'org.jetbrains:annotations:15.0'
     implementation "com.egame.vap:animplayer:2.0.10"
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    //kotlin-reflect
-    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     //kotlin -coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.2'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.2'
