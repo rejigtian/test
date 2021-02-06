@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
@@ -79,6 +80,8 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(@NonNull View widget) {
                 Toast.makeText(getApplicationContext(), "哈哈哈哈哈", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getContext(),TinkerActivity.class);
+                startActivity(intent);
             }
 
             @Override
