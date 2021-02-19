@@ -1,13 +1,12 @@
 package com.example.test;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.test.util.StringUtil;
 
-public class TinkerActivity extends AppCompatActivity {
+public class TinkerActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,6 +15,9 @@ public class TinkerActivity extends AppCompatActivity {
         findViewById(R.id.back_iv).setOnClickListener(v -> {
             finish();
         });
-        Toast.makeText(this, "S:" + StringUtil.isEmpty(""), Toast.LENGTH_LONG).show();
+        findViewById(R.id.imageview1).setOnClickListener(v -> {
+            finish();
+            Toast.makeText(this, "S:" + StringUtil.isEmpty(""), Toast.LENGTH_LONG).show();
+        });
     }
 }
