@@ -52,5 +52,5 @@ if [[ -n "$5" ]]; then
 fi
 
 ./gradlew buildTinkerPatchRelease
-cp -f -a app/build/outputs/patch official/release/patch
+cp -f -a app/build/outputs/patch official/release
 echo "-- 热修复打包完成，请复核MF文件，保证检查版本信息正确! --"
