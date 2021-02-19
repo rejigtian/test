@@ -39,7 +39,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     api 'com.tencent.bugly:crashreport_upgrade:1.5.0'//其中latest.release指代最新版本号，也可以指定明确的版本号，例如1.5.0
     api 'com.tencent.bugly:nativecrashreport:3.7.700' //其中latest.release指代最新版本号，也可以指定明确的版本号，例如3.6.0
-    api 'com.tencent.tinker:tinker-android-lib:1.9.14.10'
+    api 'com.tencent.tinker:tinker-android-lib:1.9.9'
     //optional, help to generate the final application
 //    annotationProcessor 'com.tencent.tinker:tinker-android-anno:1.9.14.10'
     //tinker's main Android lib
