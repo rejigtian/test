@@ -5,7 +5,7 @@ def bakPath = file(project.rootDir.absolutePath + "/official/release")
 /**
  * 此处填写每次构建生成的基准包目录
  */
-def baseApkDir = ""
+def baseApkDir = "/old"
 
 /**
  * 对于插件各参数的详细解析请参考
@@ -81,9 +81,9 @@ tinkerPatch {
 //        path = "/usr/local/bin/7za"
     }
     buildConfig {
-        keepDexApply = false
+        keepDexApply = true
         //tinkerId = "1.0.1-base"
-        //applyMapping = "${bakPath}/${appName}/app-release-mapping.txt" //  可选，设置mapping文件，建议保持旧apk的proguard混淆方式
-//        applyResourceMapping = "${bakPath}/base-app-R.txt" // 可选，设置R.txt文件，通过旧apk文件保持ResId的分配
+//        applyMapping = "${bakPath}${baseApkDir}/app-release-mapping.txt" //  可选，设置mapping文件，建议保持旧apk的proguard混淆方式
+//        applyResourceMapping = "${bakPath}${baseApkDir}/app-release-R.txt" // 可选，设置R.txt文件，通过旧apk文件保持ResId的分配
     }
 }

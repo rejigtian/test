@@ -9,8 +9,8 @@ android {
         applicationId "com.example.test"
         minSdkVersion 16
         targetSdkVersion 30
-        versionCode 11
-        versionName "1.0.0.11"
+        versionCode 12
+        versionName "1.0.1.0"
         ndk {
             abiFilters 'armeabi-v7a'
         }
@@ -31,14 +31,14 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             signingConfig signingConfigs.releaseKeyStore
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             multiDexKeepFile file('multidex.keep')
             multiDexKeepProguard file('multidex-config.pro')
         }
         debug {
-            minifyEnabled false
+            minifyEnabled true
             signingConfig signingConfigs.releaseKeyStore
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             multiDexKeepFile file('multidex.keep')
