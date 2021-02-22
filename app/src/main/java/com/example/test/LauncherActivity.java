@@ -20,7 +20,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LifecycleRegistry;
 
 import com.example.test.lifecycle.LifecycleHandler;
-import com.example.test.lifecycle.ReportFragment;
 import com.example.test.view.CustomeVideoView;
 import com.tencent.qgame.animplayer.util.ALog;
 import com.tencent.qgame.animplayer.util.IALog;
@@ -60,7 +59,6 @@ public class LauncherActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_launcher);
-        ReportFragment.injectIfNeededIn(this);
         if (!isTaskRoot()) {
             Intent mainIntent = getIntent();
             if (mainIntent.hasCategory(Intent.CATEGORY_LAUNCHER)) {

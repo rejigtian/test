@@ -5,7 +5,7 @@ def bakPath = file(project.rootDir.absolutePath + "/official/release")
 /**
  * 此处填写每次构建生成的基准包目录
  */
-def baseApkDir = "/old"
+def baseApkDir = ""
 
 /**
  * 对于插件各参数的详细解析请参考
@@ -25,13 +25,13 @@ tinkerSupport {
     // 编译补丁包时，必需指定基线版本的apk，默认值为空
     // 如果为空，则表示不是进行补丁包的编译
     // @{link tinkerPatch.oldApk }
-    baseApk = "${bakPath}/base-app.apk"
+    baseApk = "${bakPath}${baseApkDir}/base-app.apk"
 
     // 对应tinker插件applyMapping
-    baseApkProguardMapping = "${bakPath}/base-app-mapping.txt"
+    baseApkProguardMapping = "${bakPath}${baseApkDir}/base-app-mapping.txt"
 
     // 对应tinker插件applyResourceMapping
-    baseApkResourceMapping = "${bakPath}/base-app-R.txt"
+    baseApkResourceMapping = "${bakPath}${baseApkDir}/base-app-R.txt"
 
     // 构建基准包和补丁包都要指定不同的tinkerId，并且必须保证唯一性
     tinkerId = android.defaultConfig.versionName + "." + android.defaultConfig.versionCode
@@ -48,6 +48,8 @@ tinkerSupport {
     // 是否支持新增非export的Activity（注意：设置为true才能修改AndroidManifest文件）
     supportHotplugComponent = true
 
+    ignoreWarning = true
+
 }
 
 /**
@@ -57,7 +59,7 @@ tinkerSupport {
  */
 tinkerPatch {
     //oldApk ="${bakPath}/${appName}/app-release.apk"
-    ignoreWarning = false
+    ignoreWarning = true
     useSign = true
     dex {
         dexMode = "jar"

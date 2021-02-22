@@ -19,15 +19,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginRight="16dp" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:layout_marginRight="100dp"
-        android:src="@drawable/above_sixteen_bg"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
@@ -37,7 +28,7 @@
         android:text="呵呵呵"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/guard_tab" />
 
     <VideoView
         android:id="@+id/test_vv"
@@ -69,5 +60,45 @@
         android:layout_height="match_parent" >
 
     </com.example.test.widget.CustomListPopupWindow>
+
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/guard_tab"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="11dp"
+        android:layout_marginEnd="60dp"
+        app:tabIndicatorColor="@color/colorPrimary"
+        app:tabIndicatorFullWidth="false"
+        app:tabIndicatorHeight="3dp"
+        app:tabSelectedTextColor="@color/black"
+        app:tabTextColor="@color/colorPrimary"
+        app:tabTextAppearance="@style/tabLayoutTextStyle"
+        app:tabBackground="@color/transparent"
+        app:tabRippleColor="@color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/guard_tab1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="日榜" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/guard_tab2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="周榜" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/guard_tab3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="总榜" />
+    </com.google.android.material.tabs.TabLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
