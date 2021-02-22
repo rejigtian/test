@@ -19,7 +19,7 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
-#applymapping ../official/release/old/app-release-mapping.txt
+#-applymapping app-debug-mapping.txt
 -optimizationpasses 5                                                           # 指定代码的压缩级别
 -dontusemixedcaseclassnames                                                     # 是否使用大小写混合
 -dontskipnonpubliclibraryclasses                                                # 是否混淆第三方jar
@@ -34,6 +34,21 @@
 -keep public class * extends android.content.ContentProvider                    # 保持哪些类不被混淆
 -keep public class * extends android.app.backup.BackupAgentHelper               # 保持哪些类不被混淆
 -keep public class * extends android.preference.Preference                      # 保持哪些类不被混淆
+
+#androidx包使用混淆
+-keep class com.google.android.material.** {*;}
+-keep class androidx.** {*;}
+-keep public class * extends androidx.**
+-keep interface androidx.** {*;}
+-dontwarn com.google.android.material.**
+-dontnote com.google.android.material.**
+-dontwarn androidx.**
+
+# 对于带有回调函数的onXXEvent、**On*Listener的，不能被混淆
+-keepclassmembers class * {
+    void *(**On*Event);
+    void *(**On*Listener);
+}
 
 -keepclasseswithmembernames class * {                                           # 保持 native 方法不被混淆
     native <methods>;
