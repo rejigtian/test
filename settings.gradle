@@ -1,3 +1,4 @@
 include ':hotfix'
 include ':app'
+include ':talkingdata'
 rootProject.name = "test"

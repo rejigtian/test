@@ -1,4 +1,4 @@
-package com.woyou.hotfix;
+package com.example.test;
 
 import android.annotation.TargetApi;
 import android.app.Application;
@@ -9,6 +9,8 @@ import android.widget.Toast;
 
 import androidx.multidex.MultiDex;
 
+import com.example.test.util.AppUtil;
+import com.huiwan.talkingdata.TalkingDataManager;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
 import com.tencent.bugly.beta.interfaces.BetaPatchListener;
@@ -32,6 +34,8 @@ public class SampleApplicationLike extends DefaultApplicationLike {
         super.onCreate();
         // 这里实现SDK初始化，appId替换成你的在Bugly平台申请的appId
         // 调试时，将第三个参数改为true
+        AppUtil.getInstance().init(getApplication());
+        TalkingDataManager.init(getApplication());
         Beta.betaPatchListener = new BetaPatchListener() {
             @Override
             public void onPatchReceived(String patchFile) {

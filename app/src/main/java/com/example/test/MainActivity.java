@@ -101,9 +101,11 @@ public class MainActivity extends Activity {
             giftPlayView.playGiftAnim();
             simpleTextView.setPadding(8, 8, 8, 8);
             simpleTextView.setGravity(SimpleTextView.ALIGN_CENTER);
-            spanTest.append(DeviceInfoUtil.getDeviceInfo(getContext()).toString());
-            simpleTextView.setText(spanTest);
-            Log.e(TAG, "onCreate: " + spanTest);
+            DeviceInfoUtil.getDeviceInfo(getContext(), advertisingIdInfo -> {
+                spanTest.append(DeviceInfoUtil.deviceInfo.toString());
+                simpleTextView.setText(spanTest);
+                Log.e(TAG, "onCreate: " + spanTest);
+            });
             actionPopwindow.showView(true, menu);
         });
     }

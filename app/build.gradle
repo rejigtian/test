@@ -7,7 +7,7 @@ android {
     buildToolsVersion "30.0.3"
     defaultConfig {
         applicationId "com.example.test"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode 15
         versionName "1.0.1.0"
@@ -31,14 +31,16 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
+            shrinkResources false
             signingConfig signingConfigs.releaseKeyStore
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             multiDexKeepFile file('multidex.keep')
             multiDexKeepProguard file('multidex-config.pro')
         }
         debug {
-            minifyEnabled true
+            minifyEnabled false
+            shrinkResources false
             signingConfig signingConfigs.releaseKeyStore
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             multiDexKeepFile file('multidex.keep')
@@ -81,6 +83,8 @@ dependencies {
     implementation project(path: ':hotfix')
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.google.android.material:material:1.3.0'
+    implementation 'androidx.ads:ads-identifier:1.0.0-alpha04'
+    implementation project(path: ':talkingdata')
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'

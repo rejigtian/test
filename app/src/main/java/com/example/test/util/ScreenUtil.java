@@ -1,7 +1,6 @@
 package com.example.test.util;
 
 import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -14,8 +13,6 @@ import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
 import android.view.ViewConfiguration;
 import android.view.WindowManager;
-
-import androidx.core.content.ContextCompat;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -276,4 +273,7 @@ public class ScreenUtil {
         return result;
     }
 
+    public static int dip2px(int i) {
+        return 0;
+    }
 }

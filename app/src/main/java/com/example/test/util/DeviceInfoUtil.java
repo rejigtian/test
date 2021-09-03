@@ -9,15 +9,21 @@ import android.location.LocationManager;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
+import androidx.ads.identifier.AdvertisingIdClient;
+import androidx.ads.identifier.AdvertisingIdInfo;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 
 import com.example.test.deviceInfo.DeviceInfo;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gson.Gson;
+import com.huiwan.talkingdata.TalkingDataManager;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -35,6 +41,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 /**
  * @author rejig
@@ -46,6 +53,8 @@ public class DeviceInfoUtil {
     public final static String NEEDPERMISSION = "needpermission";
     public final static String DEFAULT_MAC = "02:00:00:00:00:00";
     public final static String HUIWAN_DEVICE = "dX9PAbRsEtKgsYAW";
+    public static DeviceInfo deviceInfo = new DeviceInfo();
+    private static Callback callback;
 
 
     //需要获得READ_PHONE_STATE权限，>=6.0，默认返回null
@@ -106,7 +115,7 @@ public class DeviceInfoUtil {
         return "";
     }
 
-    public static String getUuid(){
+    public static String getUuid() {
         String uuid = new Date().getTime() + "_AndroidQ_" + UUID.randomUUID().toString();
         return uuid;
     }
@@ -359,40 +368,73 @@ public class DeviceInfoUtil {
         return map;
     }
 
-    public static DeviceInfo getDeviceInfo(Context context) {
-        DeviceInfo deviceinfo = new DeviceInfo();
-        deviceinfo.macAddress = getMac(context);
-        deviceinfo.androidId = getAndroidId(context);
-        deviceinfo.imei = getIMEI(context);
-        deviceinfo.board = Build.BOARD;
-        deviceinfo.bootloader = Build.BOOTLOADER;
-        deviceinfo.brand = Build.BRAND;
-        deviceinfo.cpuAbi = Build.CPU_ABI;
-        deviceinfo.device = Build.DEVICE;
-        deviceinfo.deviceVersion = Build.ID;
-        deviceinfo.host = Build.HOST;
-        deviceinfo.model = Build.MODEL;
-        deviceinfo.manufacturer = Build.MANUFACTURER;
-        deviceinfo.product = Build.PRODUCT;
-        deviceinfo.time = String.valueOf(Build.TIME);
-        deviceinfo.hardware = Build.HARDWARE;
-        deviceinfo.display = Build.DISPLAY;
-        deviceinfo.versionRelease = Build.VERSION.RELEASE;
-        deviceinfo.versionIncremental = Build.VERSION.INCREMENTAL;
-        deviceinfo.versionSdkInt = String.valueOf(Build.VERSION.SDK_INT);
+    public static void getDeviceInfo(Context context, Callback callback) {
+        DeviceInfoUtil.callback = callback;
+        deviceInfo.macAddress = getMac(context);
+        deviceInfo.androidId = getAndroidId(context);
+        deviceInfo.imei = getIMEI(context);
+        deviceInfo.imsi = getIMSI(context);
+        deviceInfo.secondFeature.board = Build.BOARD;
+        deviceInfo.secondFeature.bootloader = Build.BOOTLOADER;
+        deviceInfo.secondFeature.brand = Build.BRAND;
+        deviceInfo.secondFeature.cpuAbi = Build.CPU_ABI;
+        deviceInfo.secondFeature.device = Build.DEVICE;
+        deviceInfo.secondFeature.deviceVersion = Build.ID;
+        deviceInfo.secondFeature.host = Build.HOST;
+        deviceInfo.secondFeature.model = Build.MODEL;
+        deviceInfo.secondFeature.manufacturer = Build.MANUFACTURER;
+        deviceInfo.secondFeature.product = Build.PRODUCT;
+        deviceInfo.secondFeature.time = String.valueOf(Build.TIME);
+        deviceInfo.secondFeature.hardware = Build.HARDWARE;
+        deviceInfo.secondFeature.display = Build.DISPLAY;
+        deviceInfo.secondFeature.versionRelease = Build.VERSION.RELEASE;
+        deviceInfo.secondFeature.versionIncremental = Build.VERSION.INCREMENTAL;
+        deviceInfo.secondFeature.versionSdkInt = String.valueOf(Build.VERSION.SDK_INT);
+        deviceInfo.serialNumber = getSerialNumber();
+        deviceInfo.oaid = getOAID(context);
+        deviceInfo.tdid = getTDID(context);
         Location location = getLocation(context);
         if (location != null) {
-            deviceinfo.latitude = String.valueOf(location.getLatitude());
-            deviceinfo.longitude = String.valueOf(location.getLongitude());
+            deviceInfo.secondFeature.latitude = String.valueOf(location.getLatitude());
+            deviceInfo.secondFeature.longitude = String.valueOf(location.getLongitude());
         }
-        return deviceinfo;
+        getAdId().start();
     }
 
+    static Thread getAdId() {
+        Handler handler = new Handler(Looper.getMainLooper());
+        return new Thread(() -> {
+            if (AdvertisingIdClient.isAdvertisingIdProviderAvailable(AppUtil.getApplication())) {
+                ListenableFuture<AdvertisingIdInfo> adInfoFu = AdvertisingIdClient.getAdvertisingIdInfo(AppUtil.getApplication());
+                try {
+                    AdvertisingIdInfo adInfo = adInfoFu.get();
+                    deviceInfo.advertisingId = adInfo.getId();
+                } catch (ExecutionException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            handler.post(() -> {
+                if (callback != null) {
+                    callback.onGetDeviceInfo(deviceInfo);
+                }
+            });
+        });
+    }
 
     public static String getDeviceIdJsonString(DeviceInfo deviceInfo) {
         Gson gson = new Gson();
         return gson.toJson(deviceInfo);
     }
-    
 
+    public static String getOAID(Context context){
+        return TalkingDataManager.getOAID(context);
+    }
+
+    public static String getTDID(Context context){
+        return TalkingDataManager.getTDID(context);
+    }
+
+    public interface Callback {
+        void onGetDeviceInfo(DeviceInfo deviceInfo);
+    }
 }
