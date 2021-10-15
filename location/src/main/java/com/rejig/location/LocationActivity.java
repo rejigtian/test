@@ -11,20 +11,22 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 定位列表页面支持搜索
+ * @author rejig
+ * date 2021-10-15
+ */
 public class LocationActivity extends Activity {
     private EditText searchTv;
     private RecyclerView locationRcv;
-    private ConstraintLayout emptyView;
     private LocationListAdapter adapter;
     private String keyword = "";
-    private String TAG= "LocationActivity";
     private HWPosition myPoi = new HWPosition();
     private List<HWPosition> nearbyPoiList = new ArrayList<>();
     private int totalPage;
@@ -35,12 +37,18 @@ public class LocationActivity extends Activity {
         setContentView(R.layout.activity_location);
         searchTv = findViewById(R.id.search_tv);
         locationRcv = findViewById(R.id.location_rcv);
-        emptyView = findViewById(R.id.empty_view);
         initView();
         initData();
         setListener();
         PositionHelper.getInstance().initSearch();
+        String TAG = "LocationActivity";
         Log.e(TAG, "onCreate: " );
+    }
+
+    private void initView() {
+        adapter = new LocationListAdapter(this);
+        locationRcv.setLayoutManager(new LinearLayoutManager(this));
+        locationRcv.setAdapter(adapter);
     }
 
     private void initData() {
@@ -60,16 +68,6 @@ public class LocationActivity extends Activity {
                 Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
             }
         });
-    }
-
-    private Context getContext() {
-        return this;
-    }
-
-    private void initView() {
-        adapter = new LocationListAdapter(this);
-        locationRcv.setLayoutManager(new LinearLayoutManager(this));
-        locationRcv.setAdapter(adapter);
     }
 
     private void setListener() {
@@ -106,6 +104,9 @@ public class LocationActivity extends Activity {
         adapter.setCanUpdate(false);
     }
 
+    private Context getContext() {
+        return this;
+    }
 
     @Override
     protected void onDestroy() {

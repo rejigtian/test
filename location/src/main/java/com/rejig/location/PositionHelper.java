@@ -16,6 +16,11 @@ import com.baidu.mapapi.search.poi.PoiSearch;
 
 import java.util.List;
 
+/**
+ * 搜索定位的工具类，基于百度sdk实现
+ * @author rejig
+ * date 2021-10-15
+ */
 public class PositionHelper {
 
     private static PositionHelper instance;
@@ -37,11 +42,17 @@ public class PositionHelper {
         SDKInitializer.setCoordType(CoordType.BD09LL);
     }
 
+    /**
+     * 调用前需要初始化搜索引擎
+     */
     public void initSearch(){
         poiSearch = PoiSearch.newInstance();
         poiSearch.setOnGetPoiSearchResultListener(listener);
     }
 
+    /**
+     * 调用完成后要反初始化搜索引擎
+     */
     public void unInitSearch(){
         poiSearch.destroy();
     }
@@ -49,21 +60,16 @@ public class PositionHelper {
     public void setCallback(Callback callback) {
         this.callback = callback;
     }
+
     /**
-     *  PoiCiySearchOption 设置检索属性
-     *  city 检索城市
-     *  keyword 检索内容关键字
-     *  pageNum 分页页码
+     *  根据城市搜索
+     *  @param city 检索城市
+     *  @param keyword 检索内容关键字
+     *  @param pageNum 分页页码
      */
     public void searchPosition(String city, String keyword, int pageNum){
         /*
-         * pageNum	分页编号，默认返回第0页结果
-         * pageCapacity	设置每页容量，默认为10条结果
-         * tag	设置检索分类，如“美食”
-         * scope	值为1 或 空，返回基本信息
-         * 值为2，返回POI详细信息
          * cityLimit	是否限制检索区域为城市内
-         * poiFilter	设置检索过滤条件，scope为2时有效
          */
         poiSearch.searchInCity(new PoiCitySearchOption()
                 .city(city) //必填
@@ -73,19 +79,18 @@ public class PositionHelper {
     }
 
     /**
-     *  PoiCiySearchOption 设置检索属性
-     *  city 检索城市
-     *  keyword 检索内容关键字
-     *  pageNum 分页页码
+     * 根据周边搜索
+     * @param latitude  检索经度
+     * @param longitude 检索维度
+     * @param keyword 支持多个关键字并集检索，不同关键字间以$符号分隔，最多支持10个关键字检索。如:”银行$酒店”
+     * @param pageNum 分页页码
      */
     public void searchPosition(double latitude, double longitude, String keyword, int pageNum){
         /*
          * pageNum	分页编号，默认返回第0页结果
          * pageCapacity	设置每页容量，默认为10条结果
          * tag	设置检索分类，如“美食”
-         * scope	值为1 或 空，返回基本信息
-         * 值为2，返回POI详细信息
-         * cityLimit	是否限制检索区域为城市内
+         * scope	值为1 或 空，返回基本信息，值为2，返回POI详细信息
          * poiFilter	设置检索过滤条件，scope为2时有效
          */
         poiSearch.searchNearby(new PoiNearbySearchOption()

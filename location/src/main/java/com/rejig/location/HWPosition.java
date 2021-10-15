@@ -6,7 +6,13 @@ import com.baidu.mapapi.search.core.PoiInfo;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 会玩内部地理位置类
+ * @author rejig
+ * date 2021-10-15
+ */
 public class HWPosition {
+    private int id; //id
     private String address; //位置信息
     private String area; //所在的区县
     private String city; //所属城市
@@ -18,6 +24,18 @@ public class HWPosition {
     private long time; //定位时间
 
     public HWPosition() {
+    }
+
+    public HWPosition(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getAddress() {
