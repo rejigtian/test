@@ -1,5 +1,6 @@
 package com.rejig.location;
 
+import com.baidu.location.Poi;
 import com.baidu.mapapi.search.core.PoiInfo;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ public class HWPosition {
     private String name;//名称
     private double latitude; //纬度坐标
     private double longitude; //经度坐标
+    private long time; //定位时间
 
     public HWPosition() {
     }
@@ -82,6 +84,14 @@ public class HWPosition {
         this.longitude = longitude;
     }
 
+    public long getTime() {
+        return time;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
+    }
+
     @Override
     public String toString() {
         return "HWPosition{" +
@@ -96,16 +106,16 @@ public class HWPosition {
                 '}';
     }
 
-    public static List<HWPosition> BDPoiListToHWPoiList(List<PoiInfo> poiDetailInfos){
+    public static List<HWPosition> BDPoiDetailListToHWPoiList(List<PoiInfo> poiDetailInfos){
         List<HWPosition> positionList = new ArrayList<>();
         if (poiDetailInfos == null) return positionList;
         for (PoiInfo poiDetailInfo : poiDetailInfos){
-            positionList.add(BDPoiToHWPoi(poiDetailInfo));
+            positionList.add(BDPoiDetailToHWPoi(poiDetailInfo));
         }
         return positionList;
     }
 
-    public static HWPosition BDPoiToHWPoi(PoiInfo detailInfo){
+    public static HWPosition BDPoiDetailToHWPoi(PoiInfo detailInfo){
         HWPosition hwPosition = new HWPosition();
         hwPosition.address = detailInfo.getAddress();
         hwPosition.area = detailInfo.getArea();
@@ -115,6 +125,22 @@ public class HWPosition {
         hwPosition.name = detailInfo.getName();
         hwPosition.latitude = detailInfo.getLocation().latitude;
         hwPosition.longitude = detailInfo.getLocation().longitude;
+        return hwPosition;
+    }
+
+    public static List<HWPosition> BDPoiListToHWPoiList(List<Poi> poiDetailInfos){
+        List<HWPosition> positionList = new ArrayList<>();
+        if (poiDetailInfos == null) return positionList;
+        for (Poi poi : poiDetailInfos){
+            positionList.add(BDPoiToHWPoi(poi));
+        }
+        return positionList;
+    }
+
+    public static HWPosition BDPoiToHWPoi(Poi poi){
+        HWPosition hwPosition = new HWPosition();
+        hwPosition.address = poi.getAddr();
+        hwPosition.name = poi.getName();
         return hwPosition;
     }
 }

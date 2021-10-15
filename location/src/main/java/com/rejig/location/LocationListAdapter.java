@@ -13,29 +13,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapter.ViewHolder> {
-    private Context context;
+    private final Context context;
     List<HWPosition> hwPositionList = new ArrayList<>();
-    private boolean cleared = false;
+    private boolean canUpdate = true;
     private final static int DEFAULT_TYPE = 0;
     private final static int EMPTY_TYPE = 1;
+    private final static int NONE_LOC_TYPE = 2;
+
 
     public LocationListAdapter(Context context) {
         this.context = context;
     }
 
     public void updateList(List<HWPosition> dataList){
-        if (cleared) return;
+        if (!canUpdate) return;
         hwPositionList.clear();
         hwPositionList.addAll(dataList);
         notifyDataSetChanged();
     }
 
-    public boolean isCleared() {
-        return cleared;
+    public boolean isCanUpdate() {
+        return canUpdate;
     }
 
-    public void setCleared(boolean cleared) {
-        this.cleared = cleared;
+    public void setCanUpdate(boolean canUpdate) {
+        this.canUpdate = canUpdate;
     }
 
     @NonNull

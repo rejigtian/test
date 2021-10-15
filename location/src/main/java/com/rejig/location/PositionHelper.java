@@ -4,11 +4,13 @@ import android.content.Context;
 
 import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
+import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.poi.OnGetPoiSearchResultListener;
 import com.baidu.mapapi.search.poi.PoiCitySearchOption;
 import com.baidu.mapapi.search.poi.PoiDetailResult;
 import com.baidu.mapapi.search.poi.PoiDetailSearchResult;
 import com.baidu.mapapi.search.poi.PoiIndoorResult;
+import com.baidu.mapapi.search.poi.PoiNearbySearchOption;
 import com.baidu.mapapi.search.poi.PoiResult;
 import com.baidu.mapapi.search.poi.PoiSearch;
 
@@ -70,12 +72,36 @@ public class PositionHelper {
                 .pageNum(pageNum));
     }
 
+    /**
+     *  PoiCiySearchOption 设置检索属性
+     *  city 检索城市
+     *  keyword 检索内容关键字
+     *  pageNum 分页页码
+     */
+    public void searchPosition(double latitude, double longitude, String keyword, int pageNum){
+        /*
+         * pageNum	分页编号，默认返回第0页结果
+         * pageCapacity	设置每页容量，默认为10条结果
+         * tag	设置检索分类，如“美食”
+         * scope	值为1 或 空，返回基本信息
+         * 值为2，返回POI详细信息
+         * cityLimit	是否限制检索区域为城市内
+         * poiFilter	设置检索过滤条件，scope为2时有效
+         */
+        poiSearch.searchNearby(new PoiNearbySearchOption()
+                .location(new LatLng(latitude, longitude)) //必填
+                .radius(100 * 1000)
+                .keyword(keyword)
+                .pageCapacity(15)
+                .pageNum(pageNum));
+    }
+
     private final OnGetPoiSearchResultListener listener = new OnGetPoiSearchResultListener() {
         @Override
         public void onGetPoiResult(PoiResult poiResult) {
-            List<HWPosition> poiDetailInfoList = HWPosition.BDPoiListToHWPoiList(poiResult.getAllPoi());
+            List<HWPosition> poiDetailInfoList = HWPosition.BDPoiDetailListToHWPoiList(poiResult.getAllPoi());
             if (callback != null){
-                callback.onSearchResult(poiDetailInfoList);
+                callback.onSearchResult(poiDetailInfoList, poiResult.getTotalPageNum());
             }
         }
         @Override
@@ -94,7 +120,7 @@ public class PositionHelper {
     };
 
     interface Callback{
-        void onSearchResult(List<HWPosition> hwPositionList);
+        void onSearchResult(List<HWPosition> hwPositionList, int totalPage);
     }
 
 }

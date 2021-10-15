@@ -29,6 +29,8 @@ import com.example.test.widget.CustomListPopupWindow;
 import com.example.test.widget.SimpleTextView;
 import com.example.test.widget.TaskItem;
 import com.rejig.location.LocationActivity;
+import com.wepie.libpermission.PermissionCallback;
+import com.wepie.libpermission.WPPermission;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -97,8 +99,20 @@ public class MainActivity extends Activity {
         }, start, spanTest.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         simpleTextView.setText(spanTest);
         locationBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(getContext(), LocationActivity.class);
-            startActivity(intent);
+            WPPermission.with((Activity) getContext())
+                    .permission(Manifest.permission.ACCESS_FINE_LOCATION)
+                    .request(new PermissionCallback() {
+                        @Override
+                        public void hasPermission(List<String> granted, boolean isAll, boolean alreadyHas) {
+                            Intent intent = new Intent(getContext(), LocationActivity.class);
+                            startActivity(intent);
+                        }
+
+                        @Override
+                        public void noPermission(List<String> denied, boolean quick) {
+                            Toast.makeText(getContext(), "未开启权限", Toast.LENGTH_LONG).show();
+                        }
+                    });
         });
 
     }
