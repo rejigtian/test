@@ -28,6 +28,7 @@ import com.example.test.view.GiftPlayView;
 import com.example.test.widget.CustomListPopupWindow;
 import com.example.test.widget.SimpleTextView;
 import com.example.test.widget.TaskItem;
+import com.rejig.location.LocationActivity;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -40,6 +41,7 @@ public class MainActivity extends Activity {
     List<TaskItem> menu = new ArrayList<>();
     CustomListPopupWindow actionPopwindow;
     Button button;
+    Button locationBtn;
     String TAG = "MainActivity";
     SimpleTextView simpleTextView;
     GiftPlayView giftPlayView;
@@ -67,6 +69,7 @@ public class MainActivity extends Activity {
         simpleTextView = findViewById(R.id.test_stv);
         actionPopwindow = findViewById(R.id.popup_window);
         simpleTextView = findViewById(R.id.test_stv);
+        locationBtn = findViewById(R.id.location_test_btn);
 
         versionTv.setText(BuildConfig.VERSION_NAME + "." + BuildConfig.VERSION_CODE);
         TaskItem taskItem = new TaskItem("取消", () -> {
@@ -93,6 +96,10 @@ public class MainActivity extends Activity {
             }
         }, start, spanTest.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         simpleTextView.setText(spanTest);
+        locationBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), LocationActivity.class);
+            startActivity(intent);
+        });
 
     }
 

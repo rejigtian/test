@@ -30,6 +30,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/guard_tab" />
 
+    <Button
+        android:id="@+id/location_test_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="地图测试"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/button" />
+
     <VideoView
         android:id="@+id/test_vv"
         android:layout_width="match_parent"
@@ -45,7 +56,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/test_vv"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/test_vv"
-        app:layout_constraintTop_toBottomOf="@+id/button">
+        app:layout_constraintTop_toBottomOf="@+id/location_test_btn">
 
         <com.example.test.widget.SimpleTextView
             android:id="@+id/test_stv"

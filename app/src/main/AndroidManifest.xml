@@ -50,6 +50,9 @@
         <meta-data
             android:name="com.google.android.gms.ads.AD_MANAGER_APP"
             android:value="true" />
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="Q0HQ6l9cRHQdDqdpWX0Gjdlfule7hSDy" />
 
     <meta-data android:name="TD_APP_ID" android:value="CF7F85D85302447385D236B29DC243E4" />
     <meta-data android:name="TD_CHANNEL_ID" android:value="test_app" />
