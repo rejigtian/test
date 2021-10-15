@@ -66,6 +66,7 @@ public class PositionHelper {
         poiSearch.searchInCity(new PoiCitySearchOption()
                 .city(city) //必填
                 .keyword(keyword) //必填
+                .pageCapacity(20)
                 .pageNum(pageNum));
     }
 

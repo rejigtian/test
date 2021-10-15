@@ -9,6 +9,7 @@ import android.util.Log;
 import android.widget.EditText;
 
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 public class LocationActivity extends Activity {
     private EditText searchTv;
     private RecyclerView locationRcv;
+    private ConstraintLayout emptyView;
     private LocationListAdapter adapter;
     private String keyword = "";
     private String TAG= "LocationActivity";
@@ -27,6 +29,7 @@ public class LocationActivity extends Activity {
         setContentView(R.layout.activity_location);
         searchTv = findViewById(R.id.search_tv);
         locationRcv = findViewById(R.id.location_rcv);
+        emptyView = findViewById(R.id.empty_view);
         initView();
         setListener();
         PositionHelper.getInstance().initSearch();
