@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.test.R;
-import com.example.test.util.ScreenUtil;
+import com.rejig.base.widget.ScreenUtil;
 
 import org.jetbrains.annotations.NotNull;
 

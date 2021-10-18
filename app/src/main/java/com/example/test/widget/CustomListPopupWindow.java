@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.test.R;
 import com.example.test.collection.ListWrapper;
 import com.example.test.util.ContextUtil;
-import com.example.test.util.ScreenUtil;
+import com.rejig.base.widget.ScreenUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;

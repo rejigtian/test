@@ -1,4 +1,4 @@
-package com.rejig.location;
+package com.rejig.base;
 
 import com.baidu.location.Poi;
 import com.baidu.mapapi.search.core.PoiInfo;

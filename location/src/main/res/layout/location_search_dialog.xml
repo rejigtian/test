@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="600dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/root_lay"
+            android:layout_width="match_parent"
+            android:layout_height="600dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/color_ffffff_top_conner8">
+
+            <ImageView
+                android:id="@+id/top_iv"
+                android:layout_width="48dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="0dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:src="@drawable/solid_24c572_coner_4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/cancel_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="取消"
+                android:textSize="16dp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/title_tv"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="所在位置"
+                android:textColor="#333333"
+                android:textSize="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/top_iv" />
+
+            <EditText
+                android:id="@+id/search_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="#eeeeee"
+                android:drawableEnd="@drawable/search_icon"
+                android:drawablePadding="6dp"
+                android:hint="请输入搜索地址"
+                android:padding="6dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cancel_tv" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/location_rcv"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/search_tv" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

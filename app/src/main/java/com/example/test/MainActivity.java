@@ -23,12 +23,12 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 
+import com.example.test.dialog.DialogUtil;
 import com.example.test.util.DeviceInfoUtil;
 import com.example.test.view.GiftPlayView;
 import com.example.test.widget.CustomListPopupWindow;
 import com.example.test.widget.SimpleTextView;
 import com.example.test.widget.TaskItem;
-import com.rejig.location.LocationActivity;
 import com.wepie.libpermission.PermissionCallback;
 import com.wepie.libpermission.WPPermission;
 
@@ -104,8 +104,9 @@ public class MainActivity extends Activity {
                     .request(new PermissionCallback() {
                         @Override
                         public void hasPermission(List<String> granted, boolean isAll, boolean alreadyHas) {
-                            Intent intent = new Intent(getContext(), LocationActivity.class);
-                            startActivity(intent);
+//                            Intent intent = new Intent(getContext(), LocationActivity.class);
+//                            startActivity(intent);
+                            DialogUtil.showLocDialog(getContext());
                         }
 
                         @Override

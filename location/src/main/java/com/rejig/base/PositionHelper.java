@@ -1,4 +1,4 @@
-package com.rejig.location;
+package com.rejig.base;
 
 import android.content.Context;
 

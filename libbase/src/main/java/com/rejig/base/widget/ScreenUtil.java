@@ -1,4 +1,4 @@
-package com.example.test.util;
+package com.rejig.base.widget;
 
 import android.app.Activity;
 import android.content.Context;

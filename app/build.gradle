@@ -83,6 +83,7 @@ dependencies {
     implementation project(path: ':hotfix')
     implementation project(path: ':location')
     implementation project(path: ':libpermission')
+    implementation project(path: ':libbase')
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.google.android.material:material:1.3.0'
     implementation 'androidx.ads:ads-identifier:1.0.0-alpha04'

@@ -4,4 +4,6 @@ include ':talkingdata'
 rootProject.name = "test"
 include ':location'
 include ':libpermission'
+include ':libbase'
+
 

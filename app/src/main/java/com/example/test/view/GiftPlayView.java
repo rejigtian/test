@@ -15,7 +15,7 @@ import androidx.core.content.ContextCompat;
 
 import com.example.test.R;
 import com.example.test.gift.GiftInterpolator;
-import com.example.test.util.ScreenUtil;
+import com.rejig.base.widget.ScreenUtil;
 
 import java.util.Random;
 
