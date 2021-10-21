@@ -1,13 +1,14 @@
 package com.rejig.base;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,15 +24,19 @@ import java.util.List;
 
 /**
  * 选择地理位置的弹窗
+ *
  * @author rejig
  * date 2021-10-20
  */
 public class ChooseLocationDialog extends DragDialog {
     private final EditText searchTv;
     private final RecyclerView locationRcv;
-    private final ImageView closeIv;
+    private final ImageView delIv;
+    private final TextView cancelTv;
     private LocationListAdapter adapter;
     private final SmartRefreshLayout smartRefreshLayout;
+    private final View dialogView;
+    private final ConstraintLayout rootLay;
 
     private final List<HWPosition> nearbyPoiList = new ArrayList<>();
     private HWPosition myPoi = new HWPosition();
@@ -46,9 +51,11 @@ public class ChooseLocationDialog extends DragDialog {
         searchTv = findViewById(R.id.search_tv);
         locationRcv = findViewById(R.id.location_rcv);
         smartRefreshLayout = findViewById(R.id.refresh_lay);
-        closeIv = findViewById(R.id.close_iv);
+        delIv = findViewById(R.id.close_iv);
+        dialogView = findViewById(R.id.dialog_lay);
+        cancelTv = findViewById(R.id.cancel_tv);
         ImageView topIv = findViewById(R.id.top_iv);
-        ConstraintLayout rootLay = findViewById(R.id.root_lay);
+        rootLay = findViewById(R.id.root_lay);
         setControlView(topIv, rootLay);
         initView();
         initData();
@@ -86,10 +93,9 @@ public class ChooseLocationDialog extends DragDialog {
         });
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     private void setListener() {
         PoiSearchHelper.getInstance().setCallback((hwPositionList, totalPage) -> {
-            if (curPage > 0){
+            if (curPage > 0) {
                 adapter.addList(hwPositionList);
                 smartRefreshLayout.finishLoadmore();
             } else {
@@ -113,9 +119,9 @@ public class ChooseLocationDialog extends DragDialog {
                 keyword = s.toString();
                 if (TextUtils.isEmpty(keyword)) {
                     showRecommendList();
-                    closeIv.setVisibility(GONE);
+                    delIv.setVisibility(GONE);
                 } else {
-                    closeIv.setVisibility(VISIBLE);
+                    delIv.setVisibility(VISIBLE);
                     adapter.setCanUpdate(true);
                     curPage = 0;
                     PoiSearchHelper.getInstance().searchPosition(myPoi.getLatitude(), myPoi.getLongitude(), keyword, curPage);
@@ -133,16 +139,20 @@ public class ChooseLocationDialog extends DragDialog {
             }
         });
         adapter.setCallback(position -> {
-            if (callback != null){
+            if (callback != null) {
                 callback.onSelectPoi(position);
             }
         });
-        closeIv.setOnClickListener(v -> searchTv.setText(""));
+        delIv.setOnClickListener(v -> searchTv.setText(""));
+        dialogView.setOnClickListener(v -> onClose());
+        rootLay.setOnClickListener(v -> {
+        });
+        cancelTv.setOnClickListener(v -> onClose());
     }
 
     @Override
     public void onClose() {
-        if (callback!=null){
+        if (callback != null) {
             callback.onCancel();
         }
     }
@@ -156,10 +166,14 @@ public class ChooseLocationDialog extends DragDialog {
         this.callback = callback;
     }
 
+    /**
+     * 设置已选择的地理位置
+     * @param selectPosition 选择的地理位置
+     */
     public void setSelectPosition(HWPosition selectPosition) {
-        if (selectPosition == null){
+        if (selectPosition == null) {
             adapter.setSelectId(LocationListAdapter.NONE_LOC_ID);
-        } else if (HWPosition.MY_ID.equals(selectPosition.getId())){
+        } else if (HWPosition.MY_ID.equals(selectPosition.getId())) {
             adapter.setSelectId(selectPosition.getId());
         } else {
             nearbyPoiList.add(1, selectPosition);
@@ -178,6 +192,7 @@ public class ChooseLocationDialog extends DragDialog {
 
     public interface Callback {
         void onCancel();
+
         void onSelectPoi(HWPosition position);
     }
 }
