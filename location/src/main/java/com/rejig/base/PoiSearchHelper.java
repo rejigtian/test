@@ -21,15 +21,15 @@ import java.util.List;
  * @author rejig
  * date 2021-10-15
  */
-public class PositionHelper {
+public class PoiSearchHelper {
 
-    private static PositionHelper instance;
+    private static PoiSearchHelper instance;
     private PoiSearch poiSearch;
     private Callback callback;
 
-    public static PositionHelper getInstance() {
+    public static PoiSearchHelper getInstance() {
         if (instance == null){
-            instance = new PositionHelper();
+            instance = new PoiSearchHelper();
         }
         return instance;
     }

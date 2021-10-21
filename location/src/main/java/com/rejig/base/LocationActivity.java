@@ -40,7 +40,7 @@ public class LocationActivity extends Activity {
         initView();
         initData();
         setListener();
-        PositionHelper.getInstance().initSearch();
+        PoiSearchHelper.getInstance().initSearch();
         String TAG = "LocationActivity";
         Log.e(TAG, "onCreate: " );
     }
@@ -52,7 +52,7 @@ public class LocationActivity extends Activity {
     }
 
     private void initData() {
-        LocationHelper.getInstance(getContext()).startLocate(false, new LocationHelper.Callback() {
+        LocationPoiHelper.getInstance(getContext()).startLocate(false, new LocationPoiHelper.Callback() {
             @Override
             public void onLocationSuc(HWPosition hwPosition, List<HWPosition> positions) {
                 myPoi = hwPosition;
@@ -71,7 +71,7 @@ public class LocationActivity extends Activity {
     }
 
     private void setListener() {
-        PositionHelper.getInstance().setCallback((hwPositionList, totalPage) -> {
+        PoiSearchHelper.getInstance().setCallback((hwPositionList, totalPage) -> {
             adapter.updateList(hwPositionList);
             this.totalPage = totalPage;
         });
@@ -93,7 +93,7 @@ public class LocationActivity extends Activity {
                     showRecommendList();
                 } else {
                     adapter.setCanUpdate(true);
-                    PositionHelper.getInstance().searchPosition(myPoi.getLatitude(), myPoi.getLongitude(), s.toString(), 0);
+                    PoiSearchHelper.getInstance().searchPosition(myPoi.getLatitude(), myPoi.getLongitude(), s.toString(), 0);
                 }
             }
         });
@@ -111,6 +111,6 @@ public class LocationActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        PositionHelper.getInstance().unInitSearch();
+        PoiSearchHelper.getInstance().unInitSearch();
     }
 }

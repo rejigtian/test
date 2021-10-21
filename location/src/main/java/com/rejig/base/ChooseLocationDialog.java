@@ -1,14 +1,11 @@
 package com.rejig.base;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -18,30 +15,42 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.rejig.base.widget.DragDialog;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChooseLocationDialog extends ConstraintLayout {
+/**
+ * 选择地理位置的弹窗
+ * @author rejig
+ * date 2021-10-20
+ */
+public class ChooseLocationDialog extends DragDialog {
     private final EditText searchTv;
     private final RecyclerView locationRcv;
-    private final ImageView topIv;
-    private final ConstraintLayout rootLay;
+    private final ImageView closeIv;
     private LocationListAdapter adapter;
-    private String keyword = "";
-    private HWPosition myPoi = new HWPosition();
+    private final SmartRefreshLayout smartRefreshLayout;
+
     private List<HWPosition> nearbyPoiList = new ArrayList<>();
+    private HWPosition myPoi = new HWPosition();
+    private String keyword = "";
     private Callback callback;
-    private boolean hasInit = false;
-    private float startY;
     private int totalPage;
+    private int curPage;
+    private HWPosition selectPosition;
 
     public ChooseLocationDialog(@NonNull Context context) {
         super(context);
         LayoutInflater.from(getContext()).inflate(R.layout.location_search_dialog, this);
         searchTv = findViewById(R.id.search_tv);
         locationRcv = findViewById(R.id.location_rcv);
-        topIv = findViewById(R.id.top_iv);
-        rootLay = findViewById(R.id.root_lay);
+        smartRefreshLayout = findViewById(R.id.refresh_lay);
+        closeIv = findViewById(R.id.close_iv);
+        ImageView topIv = findViewById(R.id.top_iv);
+        ConstraintLayout rootLay = findViewById(R.id.root_lay);
+        setControlView(topIv, rootLay);
         initView();
         initData();
         setListener();
@@ -50,25 +59,25 @@ public class ChooseLocationDialog extends ConstraintLayout {
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        PositionHelper.getInstance().initSearch();
+        PoiSearchHelper.getInstance().initSearch();
     }
 
     private void initView() {
         adapter = new LocationListAdapter(getContext());
         locationRcv.setLayoutManager(new LinearLayoutManager(getContext()));
         locationRcv.setAdapter(adapter);
+        smartRefreshLayout.setEnableRefresh(false);
+        smartRefreshLayout.setReboundDuration(150);//回弹动画时长
     }
 
     private void initData() {
-        LocationHelper.getInstance(getContext()).startLocate(false, new LocationHelper.Callback() {
+        LocationPoiHelper.getInstance(getContext()).startLocate(false, new LocationPoiHelper.Callback() {
             @Override
             public void onLocationSuc(HWPosition hwPosition, List<HWPosition> positions) {
                 myPoi = hwPosition;
-                nearbyPoiList = positions;
+                nearbyPoiList.addAll(positions);
                 nearbyPoiList.add(0, myPoi);
-                if (searchTv.getText().length() <= 0) {
-                    showRecommendList();
-                }
+                showRecommendList();
             }
 
             @Override
@@ -80,8 +89,13 @@ public class ChooseLocationDialog extends ConstraintLayout {
 
     @SuppressLint("ClickableViewAccessibility")
     private void setListener() {
-        PositionHelper.getInstance().setCallback((hwPositionList, totalPage) -> {
-            adapter.updateList(hwPositionList);
+        PoiSearchHelper.getInstance().setCallback((hwPositionList, totalPage) -> {
+            if (curPage > 0){
+                adapter.addList(hwPositionList);
+                smartRefreshLayout.finishLoadmore();
+            } else {
+                adapter.updateList(hwPositionList);
+            }
             this.totalPage = totalPage;
         });
         searchTv.addTextChangedListener(new TextWatcher() {
@@ -100,56 +114,38 @@ public class ChooseLocationDialog extends ConstraintLayout {
                 keyword = s.toString();
                 if (TextUtils.isEmpty(keyword)) {
                     showRecommendList();
+                    closeIv.setVisibility(GONE);
                 } else {
+                    closeIv.setVisibility(VISIBLE);
                     adapter.setCanUpdate(true);
-                    PositionHelper.getInstance().searchPosition(myPoi.getLatitude(), myPoi.getLongitude(), s.toString(), 0);
+                    curPage = 0;
+                    PoiSearchHelper.getInstance().searchPosition(myPoi.getLatitude(), myPoi.getLongitude(), keyword, curPage);
                 }
             }
         });
-        topIv.setOnTouchListener((v, event) -> {
-            switch (event.getAction()){
-                case MotionEvent.ACTION_DOWN:
-                    startY = event.getRawY();
-                    break;
-                case MotionEvent.ACTION_MOVE:
-                    float y = event.getRawY() - startY;
-                    if (y<0) y =0;
-                    requestMoveLay(y);
-                    break;
-                case MotionEvent.ACTION_CANCEL:
-                case MotionEvent.ACTION_UP:
-                    float lastY = event.getRawY() - startY;
-                    if (lastY<0) lastY =0;
-                    requestMoveLay(lastY);
-                    judgePosition(lastY);
-                    break;
+        smartRefreshLayout.setOnLoadmoreListener(refreshLayout -> {
+            if (totalPage >= curPage) {
+                adapter.setCanUpdate(true);
+                curPage++;
+                PoiSearchHelper.getInstance().searchPosition(myPoi.getLatitude(), myPoi.getLongitude(), keyword, curPage);
+            } else {
+                Toast.makeText(getContext(), "没有更多了～", Toast.LENGTH_LONG).show();
+                smartRefreshLayout.finishLoadmore();
             }
-            return true;
         });
+        adapter.setCallback(position -> {
+            if (callback != null){
+                callback.onSelectPoi(position);
+            }
+        });
+        closeIv.setOnClickListener(v -> searchTv.setText(""));
     }
 
-    private void requestMoveLay(float y) {
-        rootLay.setTranslationY(y);
-    }
-
-    private void judgePosition(float lastY) {
-        if (lastY < rootLay.getMeasuredHeight()/3f){
-            moveLayWithAnim(-lastY,false);
-        } else {
-            moveLayWithAnim(rootLay.getMeasuredHeight()-lastY, true);
+    @Override
+    public void onClose() {
+        if (callback!=null){
+            callback.onCancel();
         }
-    }
-
-    private void moveLayWithAnim(float y, boolean needClose) {
-        rootLay.animate().setDuration(300).translationYBy(y).setListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-                if (needClose && callback!=null){
-                    callback.onCancel();
-                }
-            }
-        });
     }
 
     private void showRecommendList() {
@@ -157,21 +153,33 @@ public class ChooseLocationDialog extends ConstraintLayout {
         adapter.setCanUpdate(false);
     }
 
-    public Callback getCallback() {
-        return callback;
-    }
-
     public void setCallback(Callback callback) {
         this.callback = callback;
+    }
+
+    public void setSelectPosition(HWPosition selectPosition) {
+        this.selectPosition = selectPosition;
+        if (selectPosition == null){
+            adapter.setSelectId(LocationListAdapter.NONE_LOC_ID);
+        } else if (HWPosition.MY_ID.equals(selectPosition.getId())){
+            adapter.setSelectId(selectPosition.getId());
+        } else {
+            nearbyPoiList.add(1, selectPosition);
+            adapter.setSelectId(selectPosition.getId());
+        }
+        if (searchTv.getText().length() <= 0) {
+            showRecommendList();
+        }
     }
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        PositionHelper.getInstance().unInitSearch();
+        PoiSearchHelper.getInstance().unInitSearch();
     }
 
     public interface Callback {
         void onCancel();
+        void onSelectPoi(HWPosition position);
     }
 }

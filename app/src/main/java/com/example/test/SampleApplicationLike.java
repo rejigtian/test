@@ -11,7 +11,7 @@ import androidx.multidex.MultiDex;
 
 import com.example.test.util.AppUtil;
 import com.huiwan.talkingdata.TalkingDataManager;
-import com.rejig.base.PositionHelper;
+import com.rejig.base.PoiSearchHelper;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
 import com.tencent.bugly.beta.interfaces.BetaPatchListener;
@@ -37,7 +37,7 @@ public class SampleApplicationLike extends DefaultApplicationLike {
         // 调试时，将第三个参数改为true
         AppUtil.getInstance().init(getApplication());
         TalkingDataManager.init(getApplication());
-        PositionHelper.getInstance().initBDSdk(getApplication());
+        PoiSearchHelper.getInstance().initBDSdk(getApplication());
         Beta.betaPatchListener = new BetaPatchListener() {
             @Override
             public void onPatchReceived(String patchFile) {

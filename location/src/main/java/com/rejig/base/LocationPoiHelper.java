@@ -16,9 +16,9 @@ import java.util.List;
  * @author rejig
  * date 2021-10-15
  */
-public class LocationHelper {
+public class LocationPoiHelper {
     private static final String TAG = "LocationHelper";
-    private static LocationHelper instance;
+    private static LocationPoiHelper instance;
     private static final int LOCATE_TIME_GAP = 1000 * 2;//every 2 seconds
     private final LocationClient mLocationClient;
     private HWPosition locationInfo = null;
@@ -27,14 +27,14 @@ public class LocationHelper {
     private int currentLocateCount = 0;
     private final List<Callback> callbackList = new ArrayList<>();
 
-    public static LocationHelper getInstance(Context context){
+    public static LocationPoiHelper getInstance(Context context){
         if (instance == null){
-            instance = new LocationHelper(context);
+            instance = new LocationPoiHelper(context);
         }
         return instance;
     }
 
-    private LocationHelper(Context context) {
+    private LocationPoiHelper(Context context) {
         mLocationClient = new LocationClient(context);//声明LocationClient类
         MyLocationListener myListener = new MyLocationListener();
         mLocationClient.registerLocationListener(myListener);    //注册监听函数
@@ -101,9 +101,10 @@ public class LocationHelper {
             locationInfo.setName(location.getCity());
             locationInfo.setAddress(location.getProvince()+location.getCity());
             locationInfo.setTime(System.currentTimeMillis());
+            locationInfo.setId(HWPosition.MY_ID);
             stopLocate();
             for (Callback callback : callbackList){
-                nearbyPoi = HWPosition.BDPoiListToHWPoiList(location.getPoiList());
+                nearbyPoi = HWPosition.BDPoiListToHWPoiList(locationInfo, location.getPoiList());
                 callback.onLocationSuc(locationInfo, nearbyPoi);
             }
             callbackList.clear();
