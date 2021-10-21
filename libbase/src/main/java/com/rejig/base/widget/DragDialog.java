@@ -24,6 +24,8 @@ public abstract class DragDialog extends ConstraintLayout {
     private View controlView;
     private View rootLay;
     private float startY;
+    private long startTime;
+    private float limitSpeed = 100f;
 
     public DragDialog(@NonNull Context context) {
         super(context);
@@ -40,6 +42,14 @@ public abstract class DragDialog extends ConstraintLayout {
         setListener();
     }
 
+    /**
+     * 设置滑动速度大于多少，即关闭页面。
+     * 默认为100。人手速度一般在10以内。因此默认不会滑动过快关闭
+     * @param limitSpeed 最大速度
+     */
+    public void setLimitSpeed(float limitSpeed) {
+        this.limitSpeed = limitSpeed;
+    }
 
     @SuppressLint("ClickableViewAccessibility")
     private void setListener() {
@@ -47,6 +57,7 @@ public abstract class DragDialog extends ConstraintLayout {
             switch (event.getAction()){
                 case MotionEvent.ACTION_DOWN:
                     startY = event.getRawY();
+                    startTime = System.currentTimeMillis();
                     break;
                 case MotionEvent.ACTION_MOVE:
                     float y = event.getRawY() - startY;
@@ -57,8 +68,9 @@ public abstract class DragDialog extends ConstraintLayout {
                 case MotionEvent.ACTION_UP:
                     float lastY = event.getRawY() - startY;
                     if (lastY<0) lastY =0;
+                    float speed = lastY/(System.currentTimeMillis() - startTime);
                     requestMoveLay(lastY);
-                    judgePosition(lastY);
+                    judgePosition(lastY, speed);
                     break;
             }
             return true;
@@ -69,8 +81,8 @@ public abstract class DragDialog extends ConstraintLayout {
         rootLay.setTranslationY(y);
     }
 
-    private void judgePosition(float lastY) {
-        if (lastY < rootLay.getMeasuredHeight()/3f){
+    private void judgePosition(float lastY, float speed) {
+        if (lastY < rootLay.getMeasuredHeight()/3f && speed < limitSpeed){
             moveLayWithAnim(-lastY,false);
         } else {
             moveLayWithAnim(rootLay.getMeasuredHeight()-lastY, true);

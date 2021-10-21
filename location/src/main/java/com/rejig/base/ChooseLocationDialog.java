@@ -44,6 +44,7 @@ public class ChooseLocationDialog extends DragDialog {
     private Callback callback;
     private int totalPage;
     private int curPage;
+    private HWPosition selectPosition;
 
     public ChooseLocationDialog(@NonNull Context context) {
         super(context);
@@ -60,6 +61,7 @@ public class ChooseLocationDialog extends DragDialog {
         initView();
         initData();
         setListener();
+        setLimitSpeed(3);
     }
 
     @Override
@@ -74,23 +76,6 @@ public class ChooseLocationDialog extends DragDialog {
         locationRcv.setAdapter(adapter);
         smartRefreshLayout.setEnableRefresh(false);
         smartRefreshLayout.setReboundDuration(150);//回弹动画时长
-    }
-
-    private void initData() {
-        LocationPoiHelper.getInstance(getContext()).startLocate(false, new LocationPoiHelper.Callback() {
-            @Override
-            public void onLocationSuc(HWPosition hwPosition, List<HWPosition> positions) {
-                myPoi = hwPosition;
-                nearbyPoiList.addAll(positions);
-                nearbyPoiList.add(0, myPoi);
-                showRecommendList();
-            }
-
-            @Override
-            public void onLocationFail(String msg) {
-                Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
-            }
-        });
     }
 
     private void setListener() {
@@ -171,17 +156,35 @@ public class ChooseLocationDialog extends DragDialog {
      * @param selectPosition 选择的地理位置
      */
     public void setSelectPosition(HWPosition selectPosition) {
-        if (selectPosition == null) {
-            adapter.setSelectId(LocationListAdapter.NONE_LOC_ID);
-        } else if (HWPosition.MY_ID.equals(selectPosition.getId())) {
-            adapter.setSelectId(selectPosition.getId());
-        } else {
-            nearbyPoiList.add(1, selectPosition);
-            adapter.setSelectId(selectPosition.getId());
-        }
-        if (searchTv.getText().length() <= 0) {
-            showRecommendList();
-        }
+        this.selectPosition = selectPosition;
+        initData();
+    }
+
+    private void initData() {
+        LocationPoiHelper.getInstance(getContext()).startLocate(false, new LocationPoiHelper.Callback() {
+            @Override
+            public void onLocationSuc(HWPosition hwPosition, List<HWPosition> positions) {
+                myPoi = hwPosition;
+                nearbyPoiList.addAll(positions);
+                nearbyPoiList.add(0, myPoi);
+                if (selectPosition == null) {
+                    adapter.setSelectId(LocationListAdapter.NONE_LOC_ID);
+                } else if (HWPosition.MY_ID.equals(selectPosition.getId())) {
+                    adapter.setSelectId(selectPosition.getId());
+                } else {
+                    nearbyPoiList.add(1, selectPosition);
+                    adapter.setSelectId(selectPosition.getId());
+                }
+                if (searchTv.getText().length() <= 0) {
+                    showRecommendList();
+                }
+            }
+
+            @Override
+            public void onLocationFail(String msg) {
+                Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     @Override
