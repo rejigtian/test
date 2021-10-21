@@ -1,5 +1,7 @@
 package com.rejig.base;
 
+import androidx.annotation.NonNull;
+
 import com.baidu.location.Poi;
 import com.baidu.mapapi.search.core.PoiInfo;
 
@@ -128,6 +130,7 @@ public class HWPosition implements Serializable {
         return hwPosition;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "HWPosition{" +

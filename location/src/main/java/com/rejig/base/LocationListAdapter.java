@@ -8,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -111,24 +110,8 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
         });
     }
 
-    public boolean isCanUpdate() {
-        return canUpdate;
-    }
-
     public void setCanUpdate(boolean canUpdate) {
         this.canUpdate = canUpdate;
-    }
-
-    /**
-     * 获取选择的地理位置
-     *
-     * @return 不显示定位返回null
-     */
-    @Nullable
-    public HWPosition getSelectPoi() {
-        if (selectPosition > 0 && selectPosition < hwPositionList.size()) {
-            return hwPositionList.get(selectPosition);
-        } else return null;
     }
 
     @Override

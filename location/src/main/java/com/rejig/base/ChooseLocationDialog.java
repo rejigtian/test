@@ -33,13 +33,12 @@ public class ChooseLocationDialog extends DragDialog {
     private LocationListAdapter adapter;
     private final SmartRefreshLayout smartRefreshLayout;
 
-    private List<HWPosition> nearbyPoiList = new ArrayList<>();
+    private final List<HWPosition> nearbyPoiList = new ArrayList<>();
     private HWPosition myPoi = new HWPosition();
     private String keyword = "";
     private Callback callback;
     private int totalPage;
     private int curPage;
-    private HWPosition selectPosition;
 
     public ChooseLocationDialog(@NonNull Context context) {
         super(context);
@@ -158,7 +157,6 @@ public class ChooseLocationDialog extends DragDialog {
     }
 
     public void setSelectPosition(HWPosition selectPosition) {
-        this.selectPosition = selectPosition;
         if (selectPosition == null){
             adapter.setSelectId(LocationListAdapter.NONE_LOC_ID);
         } else if (HWPosition.MY_ID.equals(selectPosition.getId())){
