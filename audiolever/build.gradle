@@ -1,0 +1,54 @@
+plugins {
+    id 'com.android.library'
+}
+boolean compileCpp = false
+
+android {
+    compileSdkVersion 31
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 31
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+        externalNativeBuild{
+            cmake{
+                cppFlags "-frtti -fexceptions"
+                cFlags "-DSTDC_HEADERS"
+            }
+        }
+
+        ndk({
+            abiFilters 'armeabi-v7a', 'arm64-v8a'
+        })
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    if(compileCpp) {
+        externalNativeBuild {
+            cmake {
+                path 'src/main/cpp/CMakeLists.txt'
+            }
+        }
+    } else {
+        sourceSets {
+            main {
+                jniLibs.srcDirs = ['libs']
+            }
+        }
+    }
+}
+
+dependencies {
+}

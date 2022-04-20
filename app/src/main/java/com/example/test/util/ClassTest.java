@@ -17,10 +17,15 @@ public class ClassTest {
 //        System.out.println(priorityList.get(0).toString());
         testFinalkey("abc");
         testFinalkey("qwe");
-
+        int[] numArray = {1, 2, 3, 5, 6, 7, 7, 6, 5, 40, 3, 2, 1, 8, 92, 8, 9, 9,111,333,111,92,333};
+        int uniqueNum = 0;
+        for (int num : numArray) {
+            uniqueNum = uniqueNum ^ num;
+        }
+        System.out.println(uniqueNum);
     }
 
-    public static void testFinalkey(final String a){
+    public static void testFinalkey(final String a) {
         testCallback(new Callback() {
             @Override
             public void onCall() {
@@ -29,11 +34,11 @@ public class ClassTest {
         });
     }
 
-    public static void testCallback(Callback callback){
+    public static void testCallback(Callback callback) {
         callback.onCall();
     }
 
-    interface Callback{
+    interface Callback {
         void onCall();
     }
 }

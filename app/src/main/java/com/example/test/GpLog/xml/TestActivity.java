@@ -1,6 +1,4 @@
-package com.example.test;
-
-import static com.example.test.util.DeviceInfoUtil.REQUEAST_PERMISSION;
+package com.example.test.GpLog.xml;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -9,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Environment;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextPaint;
@@ -26,13 +23,15 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 
+import com.example.test.BuildConfig;
+import com.example.test.R;
+import com.example.test.TinkerActivity;
 import com.example.test.dialog.DialogUtil;
 import com.example.test.util.DeviceInfoUtil;
 import com.example.test.view.GiftPlayView;
 import com.example.test.widget.CustomListPopupWindow;
 import com.example.test.widget.SimpleTextView;
 import com.example.test.widget.TaskItem;
-import com.rejig.lame.AudioUtil;
 import com.wepie.libpermission.PermissionCallback;
 import com.wepie.libpermission.WPPermission;
 
@@ -41,7 +40,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends Activity {
+import static com.example.test.util.DeviceInfoUtil.REQUEAST_PERMISSION;
+
+public class TestActivity extends Activity {
     List<TaskItem> menu = new ArrayList<>();
     CustomListPopupWindow actionPopwindow;
     Button button;
@@ -87,7 +88,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(@NonNull View widget) {
                 Toast.makeText(getApplicationContext(), "哈哈哈哈哈", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getContext(),TinkerActivity.class);
+                Intent intent = new Intent(getContext(), TinkerActivity.class);
                 startActivity(intent);
             }
 
@@ -131,28 +132,6 @@ public class MainActivity extends Activity {
                 Log.e(TAG, "onCreate: " + spanTest);
             });
             actionPopwindow.showView(true, menu);
-            Toast.makeText(getContext(), AudioUtil.getLameVersion(), Toast.LENGTH_LONG).show();
-            AudioUtil.getInstance().setCallback(new AudioUtil.Callback() {
-                @Override
-                public void onProgress(long cur, long total) {
-                    Log.e(TAG, "onProgress: cur:" + cur + "total:"+total);
-                }
-
-                @Override
-                public void onFinish() {
-                    Log.e(TAG, "onFinish");
-                }
-            });
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        AudioUtil.getInstance().wavToMp3(getExternalFilesDir(Environment.DIRECTORY_MOVIES)+"/test.wav",getExternalFilesDir(Environment.DIRECTORY_MOVIES)+"/test.mp3");
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }).start();
         });
     }
 
