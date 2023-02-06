@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextPaint;
@@ -30,6 +32,7 @@ import com.example.test.dialog.DialogUtil;
 import com.example.test.util.DeviceInfoUtil;
 import com.example.test.view.GiftPlayView;
 import com.example.test.widget.CustomListPopupWindow;
+import com.example.test.widget.RoundRectProgressBar;
 import com.example.test.widget.SimpleTextView;
 import com.example.test.widget.TaskItem;
 import com.rejig.lame.AudioUtil;
@@ -51,6 +54,9 @@ public class MainActivity extends Activity {
     GiftPlayView giftPlayView;
     TextView versionTv;
     SpannableStringBuilder spanTest = new SpannableStringBuilder();
+    RoundRectProgressBar progressBar;
+    Handler handler = new Handler(Looper.getMainLooper());
+    private float curPro = 0;
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -74,7 +80,8 @@ public class MainActivity extends Activity {
         actionPopwindow = findViewById(R.id.popup_window);
         simpleTextView = findViewById(R.id.test_stv);
         locationBtn = findViewById(R.id.location_test_btn);
-
+        progressBar = findViewById(R.id.progress_bar);
+        progressBar.starByProgress(10 * 1000, 10 * 1000);
         versionTv.setText(BuildConfig.VERSION_NAME + "." + BuildConfig.VERSION_CODE);
         TaskItem taskItem = new TaskItem("取消", () -> {
             Toast.makeText(this, "点击了取消", Toast.LENGTH_SHORT).show();
@@ -118,7 +125,25 @@ public class MainActivity extends Activity {
                     });
         });
 
+        findViewById(R.id.ponit_test_btn).setOnClickListener(v -> {
+            Intent intent = new Intent(this, PointActivity.class);
+            startActivity(intent);
+        });
+
     }
+
+    public void seekProgress(){
+        handler.postDelayed(progressSeek, 30);
+    }
+
+    Runnable progressSeek = new Runnable() {
+        @Override
+        public void run() {
+            curPro = curPro + 0.002f;
+            progressBar.setProgress(curPro);
+            handler.postDelayed(progressSeek, 100);
+        }
+    };
 
     private void setListener() {
         button.setOnClickListener(v -> {
@@ -184,6 +209,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        handler.removeCallbacksAndMessages(null);
     }
 
     @Override

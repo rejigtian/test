@@ -1,0 +1,44 @@
+apply plugin: 'com.android.library'
+
+def useLib = false
+
+android {
+    compileSdkVersion 31
+    buildToolsVersion "30.0.2"
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 31
+        versionCode 1
+        versionName "1.0"
+    }
+
+    if (useLib) {
+        sourceSets {
+            main {
+                java.srcDirs = []
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    if (useLib) {
+        print(":lib:libdonwload use aar")
+        api fileTree(dir: 'lib-aar', include: ['*.aar'])
+    } else {
+        compileOnly project(':lib:baseutil')
+        print(":lib:libdonwload use source")
+    }
+}

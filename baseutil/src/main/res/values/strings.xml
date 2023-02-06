@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="save_failed">保存失败</string>
+    <string name="just_now">刚刚</string>
+    <string name="minutes_ago">分钟前</string>
+    <string name="yesterday">昨天</string>
+    <string name="expire_in">%d天%d时%d分后失效</string>
+    <string name="left_days">（剩余%d天)</string>
+    <string name="days_ago">天前</string>
+    <string name="hours_ago">小时前</string>
+    <string name="common_text_time_out">请求超时</string>
+    <string name="common_unknown_distance">未知距离</string>
+    <string name="common_distance_0m" translatable="false">0m</string>
+    <string name="common_cannot_enter_more">不能输入更多了</string>
+    <string name="my_bag_left_day_x">剩%1$d天</string>
+
+    <string name="common_was_friends">你们已经是好友啦~</string>
+    <string name="common_add_friends">加好友</string>
+
+    <string name="num_x_d" translatable="false">×%1$d</string>
+    <string name="img_uploading">上传中</string>
+    <string name="save_img_at">图片保存于%1$s</string>
+    <string name="process_photo_failed">处理照片失败</string>
+    <string name="char_period">。</string>
+    <string name="data_parse_error">数据解析失败</string>
+    <string name="undefined">未定义</string>
+    <string name="chat_content_empty_forbid_tip">聊天内容为空，不能发送</string>
+
+    <string name="time_month_str_1">一月</string>
+    <string name="time_month_str_2">二月</string>
+    <string name="time_month_str_3">三月</string>
+    <string name="time_month_str_4">四月</string>
+    <string name="time_month_str_5">五月</string>
+    <string name="time_month_str_6">六月</string>
+    <string name="time_month_str_7">七月</string>
+    <string name="time_month_str_8">八月</string>
+    <string name="time_month_str_9">九月</string>
+    <string name="time_month_str_10">十月</string>
+    <string name="time_month_str_11">十一月</string>
+    <string name="time_month_str_12">十二月</string>
+    <string name="time_hh_mm_1">%1$d小时%2$d分钟</string>
+    <string name="time_mm_1">%1$d分钟</string>
+    <string name="copied">复制成功</string>
+    <string name="time_format_mon_day">MM月dd日</string>
+    <string name="time_monday_str">星期一</string>
+    <string name="time_tuesday_str">星期二</string>
+    <string name="time_wednesday_str">星期三</string>
+    <string name="time_thursday_str">星期四</string>
+    <string name="time_friday_str">星期五</string>
+    <string name="time_saturday_str">星期六</string>
+    <string name="time_sunday_str">星期日</string>
+    <string name="expired_text">已过期</string>
+
+    <string name="left_mon_day_str">剩%1$d个月%2$d天</string>
+    <string name="left_mon_str">剩%1$d个月</string>
+    <string name="left_day_str">剩%1$d天</string>
+    <string name="left_hour_str">剩%1$d小时</string>
+    <string name="left_min_str">剩%1$d分钟</string>
+    <string name="rank_mon_day">%1$s月%2$s日</string>
+    <string name="rank_mon_day_d">%1$d月%2$d日</string>
+    <string name="unkonw_date">日期不详</string>
+    <string name="left_time">%d天%d小时</string>
+    <string name="left_time_h_m">%d小时%d分</string>
+    <string name="left_time_m_s">%d分%d秒</string>
+    <string name="second_ago">秒前</string>
+    <string name="left_time_tips">倒计时 </string>
+
+    <string name="valid_mon_day_str">%1$d个月%2$d天后生效</string>
+    <string name="valid_mon_str">%1$d个月后生效</string>
+    <string name="valid_day_str">%1$d天后生效</string>
+    <string name="valid_hour_str">%1$d小时后生效</string>
+    <string name="valid_min_str">%1$d分钟后生效</string>
+
+
+</resources>

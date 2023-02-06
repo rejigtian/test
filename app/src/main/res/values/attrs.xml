@@ -21,4 +21,18 @@
         <attr name="android:paddingTop" />
         <attr name="android:paddingBottom" />
     </declare-styleable>
+    <declare-styleable name="RoundRectProgressBar">
+        <attr name="barStartColor" format="color" />
+        <attr name="barEndColor" format="color" />
+        <attr name="barStartLocation">
+            <enum name="LeftTop" value="0" />
+            <enum name="RightTop" value="1" />
+            <enum name="RightBottom" value="2" />
+            <enum name="LeftBottom" value="3" />
+        </attr>
+        <attr name="barWidth" format="dimension" />
+        <attr name="barHeight" format="dimension" />
+        <attr name="corner" format="dimension" />
+        <attr name="strokeWidth" format="dimension" />
+    </declare-styleable>
 </resources>

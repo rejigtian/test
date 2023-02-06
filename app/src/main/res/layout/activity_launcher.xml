@@ -7,10 +7,14 @@
     android:theme="@style/Theme.AppCompat.Light.NoActionBar"
     tools:context=".LauncherActivity">
 
-    <com.example.test.view.CustomeVideoView
+    <com.example.test.view.AdjustVideoView
         android:id="@+id/launcher_lvv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <Button
         android:id="@+id/btn_close"

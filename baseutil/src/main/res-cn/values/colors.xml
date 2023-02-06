@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="color_accent_ex">#30d395</color>
+    <color name="color_text_accent_dark">#1b1d38</color>
+    <color name="color_accent_grey">#156C3F</color>
+    <color name="color_text_accent_gray">#333333</color>
+    <color name="color_gift_red">#FF6D93</color>
+</resources>

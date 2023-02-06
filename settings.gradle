@@ -6,5 +6,4 @@ include ':location'
 include ':libpermission'
 include ':libbase'
 
-
 include ':audiolever'

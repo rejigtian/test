@@ -1,0 +1,53 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        buildToolsVersion rootProject.ext.android.buildToolsVersion
+        versionCode 1
+        versionName "1.0"
+
+        buildConfigField "String", "BUILD_AREA", "\"${rootProject.ext.buildArea}\""
+        buildConfigField "String", "AREA_CHINA", "\"${rootProject.ext.china}\""
+        buildConfigField "String", "AREA_OVERSEAS", "\"${rootProject.ext.overseas}\""
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    def resDirs = ['src/main/res']
+    if (rootProject.ext.buildArea == rootProject.ext.china) {
+        resDirs = ['src/main/res', 'src/main/res-cn']
+    } else if (rootProject.ext.buildArea == rootProject.ext.overseas) {
+        resDirs = ['src/main/res', 'src/main/res-os']
+    } else {
+        resDirs = ['src/main/res', 'src/main/res-cn']
+    }
+
+    sourceSets {
+        main {
+            res.srcDirs = resDirs
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    api rootProject.ext.libAndroidx
+    api project(':lib:func')
+    api project(":lib:thread-util")
+    api rootProject.ext.dependencies.gson
+    if (rootProject.ext.buildArea != rootProject.ext.overseas) {
+        api project(":lib:jar-loader")
+    }
+}

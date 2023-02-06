@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="save_failed">Save Failed</string>
+    <string name="just_now">just now</string>
+    <string name="minutes_ago">minutes ago</string>
+    <string name="yesterday">yesterday</string>
+    <string name="expire_in">Expires in %dd %dh %dmin</string>
+    <string name="left_days">(%d days left)</string>
+    <string name="days_ago">days ago</string>
+    <string name="hours_ago">hours ago</string>
+    <string name="common_text_time_out">Request timeout</string>
+    <string name="my_bag_left_day_x">%1$d days left</string>
+
+    <string name="common_was_friends">You are friends now~</string>
+    <string name="common_add_friends">Add</string>
+    <string name="img_uploading">Uploading</string>
+</resources>

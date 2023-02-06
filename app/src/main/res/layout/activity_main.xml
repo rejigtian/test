@@ -41,6 +41,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/button" />
 
+    <Button
+        android:id="@+id/ponit_test_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="point"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/button" />
+
     <VideoView
         android:id="@+id/test_vv"
         android:layout_width="match_parent"
@@ -110,6 +120,23 @@
             android:layout_height="wrap_content"
             android:text="总榜" />
     </com.google.android.material.tabs.TabLayout>
+
+    <com.example.test.widget.RoundRectProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:background="@color/transparent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:barStartColor="#FF4B95"
+        app:barEndColor="#FF7C33"
+        app:barWidth="200dp"
+        app:barHeight="200dp"
+        app:barStartLocation="LeftTop"
+        app:strokeWidth="3dp"
+        app:corner="20dp"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="save_failed">保存失敗</string>
+    <string name="just_now">剛剛</string>
+    <string name="minutes_ago">分鐘前</string>
+    <string name="yesterday">昨天</string>
+    <string name="expire_in">%d天%d時%d分後失效</string>
+    <string name="left_days">（剩餘%d天)</string>
+    <string name="days_ago">天前</string>
+    <string name="hours_ago">小時前</string>
+    <string name="common_text_time_out">請求逾時</string>
+    <string name="my_bag_left_day_x">剩%1$d天</string>
+
+    <string name="common_was_friends">你們已經是好友啦~</string>
+    <string name="common_add_friends">加好友</string>
+    <string name="img_uploading">上傳中</string>
+</resources>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="color_transparent10">#20000000</color>
+    <color name="color_transparent15">#26000000</color>
+    <color name="color_transparent20">#33000000</color>
+    <color name="color_transparent30">#4C000000</color>
+    <color name="color_transparent35">#59000000</color>
+    <color name="color_transparent40">#66000000</color>
+    <color name="color_transparent50">#7F000000</color>
+    <color name="color_transparent60">#99000000</color>
+    <color name="color_transparent70">#B2000000</color>
+    <color name="color_transparent80">#CC000000</color>
+    <color name="color_transparent90">#e5000000</color>
+</resources>
