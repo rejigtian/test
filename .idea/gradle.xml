@@ -18,6 +18,7 @@
             <option value="$PROJECT_DIR$/libbase" />
             <option value="$PROJECT_DIR$/libpermission" />
             <option value="$PROJECT_DIR$/location" />
+            <option value="$PROJECT_DIR$/signchecker" />
             <option value="$PROJECT_DIR$/talkingdata" />
           </set>
         </option>

@@ -5,11 +5,13 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.multidex.MultiDex;
 
 import com.example.test.util.AppUtil;
+import com.huiwan.signchecker.SignChecker;
 import com.huiwan.talkingdata.TalkingDataManager;
 import com.rejig.base.PoiSearchHelper;
 import com.tencent.bugly.Bugly;
@@ -38,6 +40,10 @@ public class SampleApplicationLike extends DefaultApplicationLike {
         AppUtil.getInstance().init(getApplication());
         TalkingDataManager.init(getApplication());
         PoiSearchHelper.getInstance().initBDSdk(getApplication());
+        Log.e("SignChecker", "checkApplication: " + SignChecker.checkApplication(getApplication()));
+        Log.e("SignChecker", "doNormalSignCheck: " + SignChecker.doNormalSignCheck(getApplication()));
+        Log.e("SignChecker", "useNewAPICheck: " + SignChecker.useNewAPICheck(getApplication()));
+        Log.e("SignChecker", "checkPMProxy: " + SignChecker.checkPMProxy(getApplication()));
         Beta.betaPatchListener = new BetaPatchListener() {
             @Override
             public void onPatchReceived(String patchFile) {
